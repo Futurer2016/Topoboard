@@ -1,5 +1,5 @@
 const Graph = require('./Graph');
-const inherit = require('../../base/inherit');
+const {inherit} = require('../../base/utils');
 
 function Rect({layer, lt, rb, width, color}) {
     Graph.call(this, layer, false);

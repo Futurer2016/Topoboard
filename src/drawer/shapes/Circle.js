@@ -1,5 +1,5 @@
 const Graph = require('./Graph');
-const inherit = require('../../base/inherit');
+const {inherit} = require('../../base/utils');
 
 //圆形
 function Circle({layer, o, r, width, color, closePath}) {

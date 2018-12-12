@@ -12,7 +12,6 @@ Board = function(canvas) {
     this._hide_layers = [];
 };
 Board.prototype = {
-    constructor: Board,
     //获取canvas上下文对象
     getContext: function() {
         return this.ctx;
@@ -60,10 +59,20 @@ Board.prototype = {
                 return layer;
             }
         }
+        throw new Error('请给定正确的图层对象中attributes属性的id值');
     },
+    //获取所有图层对象的数组
     getLayers: function() {
         return this.layers;
     }
 };
+Object.defineProperties(Board.prototype, {
+    'constructor': {
+        value: Board,
+        enumerable: false,
+        configurable: true,
+        writable: true
+    }
+});
 
 module.exports = Board;

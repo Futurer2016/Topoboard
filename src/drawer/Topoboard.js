@@ -4,6 +4,7 @@ const Layer = require('./Layer');
 const Circle = require('./shapes/Circle');
 const PolyLine = require('./shapes/PolyLine');
 const Rect = require('./shapes/Rect');
+const ImgManager = require('./shapes/ImgManager');
 
 function factory() {
     return {

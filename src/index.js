@@ -32,9 +32,9 @@ var pl = new Topoboard.PolyLine({
     closePath: true
 }).fill();
 
-setInterval(function() {
-    pl.axis[0][0] ++;
-}, 1000 / 60);
+// setInterval(function() {
+//     pl.axis[0][0] ++;
+// }, 1000 / 60);
 
 
 var ctx = board.ctx;

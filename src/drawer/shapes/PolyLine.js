@@ -1,5 +1,5 @@
 const Graph = require('./Graph');
-const inherit = require('../../base/inherit');
+const {inherit} = require('../../base/utils');
 //折线
 function PolyLine({layer, axis, width, color, closePath}) {
     Graph.call(this, layer, closePath);
