@@ -9,7 +9,7 @@ module.exports = {
 	//入口文件
 	entry: {
 		Board: './src/drawer/Topoboard.js',
-		optcut: './src/index.js'
+		index: './src/index.js'
     },
 	//输出文件
 	output: {
