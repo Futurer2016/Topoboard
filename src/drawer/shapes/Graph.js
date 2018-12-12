@@ -2,7 +2,7 @@ const Drawer = require('./Drawer');
 
 function Graph(layer, closePath) {
 	this.layer = layer;
-    this.drawer = layer? new Drawer(this.layer.getBoard().getContext()): this.drawer;
+    this.drawer = new Drawer(this.layer.getBoard().getContext());
 	this.methods = [];
 	this._hide_methods = [];
 	this.closePath = closePath;

@@ -1,11 +1,20 @@
-var arr = [],
-//画板
-Board = function(canvas) {
+/**
+ * 画板
+ * @param canvas
+ * @constructor
+ */
+function Board(canvas) {
     if(! canvas || ! canvas.getContext) {
         throw new Error('找不到指定元素或者不支持Canvas的浏览器');
     }
 
-    this.ctx = canvas.getContext('2d');
+    this.destCtx = canvas.getContext('2d');
+
+    let cacheCanvas = document.createElement('canvas');
+    cacheCanvas.width = canvas.width;
+    cacheCanvas.height = canvas.height;
+
+    this.ctx = cacheCanvas.getContext('2d');
     //图层
     this.layers = [];
     //隐藏的图层
@@ -14,7 +23,10 @@ Board = function(canvas) {
 Board.prototype = {
     //获取canvas上下文对象
     getContext: function() {
-        return this.ctx;
+        return this.destCtx;
+    },
+    getCanvas: function() {
+        return this.destCtx.canvas;
     },
     //重置canvas的大小
     resize: function({width, height}) {
@@ -34,9 +46,11 @@ Board.prototype = {
     },
     //刷新页面
     refresh: function() {
-        arr.forEach.call(this.layers, function(value, key) {
+        this.layers.forEach(function(value, key) {
             value.refresh();
         });
+        //显示图片内容
+        this.destCtx.drawImage(this.ctx.canvas, 0, 0, this.destCtx.canvas.width, this.destCtx.canvas.height);
     },
     //显示
     show: function() {
@@ -52,8 +66,8 @@ Board.prototype = {
     },
     //获取图层对象
     getLayer: function(id) {
-        var layer;
-        for(var key in this.layers) {
+        let layer;
+        for(let key in this.layers) {
             layer = this.layers[key];
             if(layer.attributes.id == id) {
                 return layer;
@@ -64,6 +78,12 @@ Board.prototype = {
     //获取所有图层对象的数组
     getLayers: function() {
         return this.layers;
+    },
+    exportImg: function() {
+        let imgData = this.distCtx.canvas.toDataURL();
+        let img = new Image();
+        img.src = imgData;
+
     }
 };
 Object.defineProperties(Board.prototype, {

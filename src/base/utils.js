@@ -33,6 +33,8 @@ function getXhr() {
     else if(ActiveXObject) {
         xhr = new ActiveXObject('Microsoft.XMLHTTP');
     }
+
+    return xhr;
 }
 
 /**
