@@ -32,6 +32,8 @@ Board.prototype = {
     resize: function({width, height}) {
         this.ctx.canvas.width = width || this.ctx.canvas.width;
         this.ctx.canvas.height = height || this.ctx.canvas.height;
+        this.destCtx.canvas.width = width || this.destCtx.canvas.width;
+        this.destCtx.canvas.height = height || this.destCtx.canvas.height;
     },
     //擦除画板，擦除后可以使用refresh重新渲染
     clean: function() {

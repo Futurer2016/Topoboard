@@ -1,4 +1,6 @@
-const CutParams = require('./shapes/CutParams');
+const CutParams = require('./component/CutParams');
+const Shadow = require('./component/Shadow');
+
 const ImgManager = require('./shapes/ImgManager');
 
 const Board = require('./Board.js');
@@ -8,11 +10,13 @@ const Circle = require('./shapes/Circle');
 const PolyLine = require('./shapes/PolyLine');
 const Rect = require('./shapes/Rect');
 const Img = require('./shapes/Img');
+const Text = require('./shapes/Text');
 
 function factory() {
     return {
-        Board, Scene, Layer, Circle, PolyLine, Rect, Img,
-        ImgManager, CutParams
+        Board, Scene, Layer, Circle, PolyLine, Rect, Img, Text,
+        ImgManager,
+        CutParams, Shadow
     };
 }
 if(typeof define == 'function' && define.amd) {

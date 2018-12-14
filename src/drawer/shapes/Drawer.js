@@ -1,23 +1,32 @@
+
+function addShadow(ctx, shadow) {
+    ctx.shadowBlur = shadow.blur;
+    ctx.shadowColor = shadow.color;
+    ctx.shadowOffsetX = shadow.x;
+    ctx.shadowOffsetY = shadow.y;
+}
 //画家
-function Drawer(ctx) {
+function Drawer(graph, ctx) {
+	this.graph = graph;
 	this.ctx = ctx;
 }
 Drawer.prototype = {
-	draw: function(executor, styler) {
+    closePath: function() {
+        this.ctx.closePath();
+    },
+	draw: function(executor) {
 		this.ctx.beginPath();
-        styler && styler(this.ctx);
+		this.ctx.fillStyle = this.graph.color;
+		addShadow(this.ctx, this.graph.shadow);
         executor && executor(this.ctx);
 	}, 
-	fill: function(executor, styler) {
-		this.draw(executor, styler);
+	fill: function(executor) {
+		this.draw(executor);
 		this.ctx.fill();
 	}, 
-	stroke: function(executor, styler) {
-		this.draw(executor, styler);
+	stroke: function(executor) {
+		this.draw(executor);
 		this.ctx.stroke();
-	},
-	closePath: function() {
-        this.ctx.closePath();
 	}
 };
 

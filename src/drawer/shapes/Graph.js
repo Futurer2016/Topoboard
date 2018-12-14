@@ -1,11 +1,15 @@
 const Drawer = require('./Drawer');
+const Shadow = require('../component/Shadow');
 
-function Graph(layer, closePath) {
+function Graph({layer, closePath, color, shadow}) {
 	this.layer = layer;
-    this.drawer = new Drawer(this.layer.getBoard().getContext());
+    this.drawer = new Drawer(this, this.layer.getBoard().getContext());
 	this.methods = [];
 	this._hide_methods = [];
 	this.closePath = closePath;
+
+	this.color = color;
+	this.shadow = shadow || new Shadow(0, '#000', 0, 0);
 
     this.layer.push(this);
 }
