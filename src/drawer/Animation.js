@@ -25,22 +25,26 @@ var cancelAnimationFrame = (function () {
 		};
 })();
 
-function Scene(callable, period) {
-	this.callable = callable;
+function Animation(board, period) {
+	this.board = board;
 	this.period = period;
 	this.timer;
 }
 //开始动画
-Scene.prototype.active = function() {
-	var self = this;
+Animation.prototype.active = function(changing) {
+	let self = this;
 	this.timer = setInterval(function() {
-		self.callable();
+		if(self.board) {
+            self.board.clean();
+            self.board.refresh();
+		}
+		changing && changing();
 	}, this.period);
 };
 //停止动画
-Scene.prototype.stop = function() {
+Animation.prototype.stop = function() {
 	clearInterval(this.timer);
 	this.timer = null;
 };
 
-module.exports = Scene;
+module.exports = Animation;

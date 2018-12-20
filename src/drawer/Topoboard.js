@@ -4,7 +4,7 @@ const Shadow = require('./component/Shadow');
 const ImgManager = require('./shapes/ImgManager');
 
 const Board = require('./Board.js');
-const Scene = require('./Scene');
+const Animation = require('./Animation');
 const Layer = require('./Layer');
 const Circle = require('./shapes/Circle');
 const PolyLine = require('./shapes/PolyLine');
@@ -14,7 +14,7 @@ const Text = require('./shapes/Text');
 
 function factory() {
     return {
-        Board, Scene, Layer, Circle, PolyLine, Rect, Img, Text,
+        Board, Animation, Layer, Circle, PolyLine, Rect, Img, Text,
         ImgManager,
         CutParams, Shadow
     };

@@ -1,63 +1,76 @@
-var imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
-var canvas = document.getElementById('myCanvas');
-imgManager.load(function(im) {
-    console.log(im);
-    new Topoboard.Img({
-        layer: cirLayer,
-        image: im.imgs.bg,
-        dst: new Topoboard.CutParams(0, 0, board.getCanvas().width, board.getCanvas().height)
-    }).draw();
+let text, pl;
 
-    var rect = new Topoboard.Rect({
-        layer: recLayer,
-        cutParams: {x: 20, y: 20, w: 100, h: 100},
-        width: 6,
-        color: '#f40',
-        shadow: new Topoboard.Shadow(2, '#fff', 0, 0)
-    }).fill();
+let canvas = document.getElementById('myCanvas');
+let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
+imgManager.load();
+imgManager.onreadystatechange = function() {
+    //数据加载完成
+    if(this.readyState == 2) {
+        callbacks.dataReady(this.imgs);
+    }
+    //图片加载中
+    else if(this.readyState == 3) {
+        callbacks.loading(this.imgs, this.count);
+    }
+    else if(this.readyState == 4) {
+        callbacks.loaded(this.imgs);
+    }
+};
+let callbacks = {
+    loaded: function(imgs) {
+        new Topoboard.Img({
+            layer: cirLayer,
+            image: imgs.bg,
+            dst: new Topoboard.CutParams(0, 0, board.getCanvas().width, board.getCanvas().height)
+        }).draw();
 
-    var circle = new Topoboard.Circle({
-        layer: cirLayer,
-        o: [100, 100],
-        r: 20,
-        width: 2,
-        color: 'red',
-        closePath: true,
-        shadow: new Topoboard.Shadow(5, '#fff', 0, 0)
-    }).stroke();
+        let rect = new Topoboard.Rect({
+            layer: recLayer,
+            cutParams: {x: 20, y: 20, w: 100, h: 100},
+            width: 6,
+            color: '#f40',
+            shadow: new Topoboard.Shadow('#fff', 0, 0, 2)
+        }).fill();
 
-    var pl = new Topoboard.PolyLine({
-        layer: recLayer,
-        axis: [[10, 10], [40, 10], [40, 40], [10, 40]],
-        width: 5,
-        color: 'blue',
-        closePath: true
-    }).fill();
-    new Topoboard.Text({
-        layer: recLayer,
-        position: [300, 300],
-        text: 'hello world',
-        font: '14px consola',
-        color: '#f40'
-    }).fill();
-}, function(im, count, total) {
-    console.log('loading: ' + count + '/' + total);
-});
+        let circle = new Topoboard.Circle({
+            layer: cirLayer,
+            o: [100, 100],
+            r: 20,
+            width: 2,
+            color: 'red',
+            closePath: true,
+            shadow: new Topoboard.Shadow('#fff', 0, 0, 5)
+        }).stroke();
+
+        pl = new Topoboard.PolyLine({
+            layer: recLayer,
+            axis: [[10, 10], [40, 10], [40, 40], [10, 40]],
+            width: 5,
+            color: 'blue',
+            closePath: true
+        }).fill();
+    },
+    loading: function(imgs, count) {
+        text.text = 'loading: ' + count + '/' + imgs.length;
+    },
+    dataReady: function(imgs) {
+        text = new Topoboard.Text({
+            layer: recLayer,
+            position: [300, 300],
+            text: 'loading: 0/' + imgs.length,
+            font: '18px consola',
+            color: '#f40'
+        }).fill();
+    }
+};
 var board = new Topoboard.Board(document.getElementById('myCanvas'));
-var scene = new Topoboard.Scene(function() {
-    board.clean();
-    board.refresh();
-}, 1000/ 60);
-// scene.active();
 var cirLayer = new Topoboard.Layer(board, {id: 'cir1', layerName: '圆'});
-
 var recLayer = new Topoboard.Layer(board, {id: 'rec1', layerName: '折线'});
 
-
-// setInterval(function() {
-//     pl.axis[0][0] ++;
-// }, 1000 / 60);
-
+var animation = new Topoboard.Animation(board, 1000/ 60);
+animation.active(function() {
+    // pl && pl.axis[0][0] ++;
+});
 
 var ctx = board.ctx;
 // ctx.beginPath();
