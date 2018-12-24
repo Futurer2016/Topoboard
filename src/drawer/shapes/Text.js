@@ -1,10 +1,10 @@
 const Graph = require('./Graph');
 const {inherit} = require('../../base/utils');
 
-function Text({layer, position, text, font, color, shadow}) {
+function Text({layer, position, content, font, color, shadow}) {
     Graph.call(this, {layer, closePath: true, color, shadow});
 
-    this.text = text;
+    this.content = content;
     this.position = position;
     this.font = font;
 }
@@ -14,7 +14,7 @@ inherit(Text, Graph, {
         let self = this, ctx = this.drawer.ctx;
         ctx.font = self.font;
         ctx.fillStyle = this.color;
-        ctx.fillText(self.text, self.position[0], self.position[1]);
+        ctx.fillText(self.content, self.position[0], self.position[1]);
         this.closePath && ctx.closePath();
 
         this.push('fill');

@@ -6,18 +6,18 @@ imgManager.load();
 imgManager.onreadystatechange = function() {
     //数据加载完成
     if(this.readyState == 2) {
-        callbacks.dataReady(this.imgs);
+        callbacks.imgInfoReady(this.data.images.length);
     }
     //图片加载中
     else if(this.readyState == 3) {
-        callbacks.loading(this.imgs, this.count);
+        callbacks.imgLoading(this.count, this.data.images.length);
     }
     else if(this.readyState == 4) {
-        callbacks.loaded(this.imgs);
+        callbacks.imgLoaded(this.imgs);
     }
 };
 let callbacks = {
-    loaded: function(imgs) {
+    imgLoaded: function(imgs) {
         new Topoboard.Img({
             layer: cirLayer,
             image: imgs.bg,
@@ -49,30 +49,34 @@ let callbacks = {
             color: 'blue',
             closePath: true
         }).fill();
+
+        text && text.clear(), recLayer.remove(text);
     },
-    loading: function(imgs, count) {
-        text.text = 'loading: ' + count + '/' + imgs.length;
+    imgLoading: function(count, total) {
+        text.content = 'loading: ' + count + '/' + total;
     },
-    dataReady: function(imgs) {
+    imgInfoReady: function(total) {
         text = new Topoboard.Text({
             layer: recLayer,
             position: [300, 300],
-            text: 'loading: 0/' + imgs.length,
+            content: 'loading: 0/' + total,
             font: '18px consola',
             color: '#f40'
         }).fill();
     }
 };
-var board = new Topoboard.Board(document.getElementById('myCanvas'));
-var cirLayer = new Topoboard.Layer(board, {id: 'cir1', layerName: '圆'});
-var recLayer = new Topoboard.Layer(board, {id: 'rec1', layerName: '折线'});
 
-var animation = new Topoboard.Animation(board, 1000/ 60);
-animation.active(function() {
-    // pl && pl.axis[0][0] ++;
-});
+let board = new Topoboard.Board(document.getElementById('myCanvas'));
+let cirLayer = new Topoboard.Layer(board, {id: 'cir1', layerName: '圆'});
+let recLayer = new Topoboard.Layer(board, {id: 'rec1', layerName: '折线'});
 
-var ctx = board.ctx;
+let animation = new Topoboard.Animation(board);
+animation.onenterframe = function() {
+    pl && pl.axis[0][0] ++;
+};
+animation.start();
+
+let ctx = board.ctx;
 // ctx.beginPath();
 // ctx.fillStyle = 'green';
 // ctx.lineWidth = 10;

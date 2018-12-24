@@ -47,7 +47,7 @@ function getQueryString(data) {
         return '';
     }
     let ret = '?';
-    for(var key in data) {
+    for(let key in data) {
         let value = data[key];
         if(data.hasOwnProperty(value)) {
             ret += key + '=' + value + '&';

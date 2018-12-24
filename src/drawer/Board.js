@@ -38,17 +38,18 @@ Board.prototype = {
     //擦除画板，擦除后可以使用refresh重新渲染
     clean: function() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+        this.destCtx.clearRect(0, 0, this.destCtx.canvas.width, this.destCtx.canvas.height);
     },
     //清除所有画板元素，清除后使用refresh不能重新渲染
     clear: function() {
-        this.layers.forEach(function(value, key) {
+        this.layers.forEach(function(value) {
             value.clear();
         });
         this.layers = [];
     },
     //刷新页面
     refresh: function() {
-        this.layers.forEach(function(value, key) {
+        this.layers.forEach(function(value) {
             value.refresh();
         });
         //显示图片内容
