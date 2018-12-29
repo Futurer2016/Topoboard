@@ -5,23 +5,22 @@ let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
 imgManager.load();
 imgManager.onreadystatechange = function() {
     //数据加载完成
-    if(this.readyState == 2) {
+    if(this.readyState == Topoboard.ImgManager.STATE_RESOURCE_INFO_READY) {
         callbacks.imgInfoReady(this.data.images.length);
     }
     //图片加载中
-    else if(this.readyState == 3) {
+    else if(this.readyState == Topoboard.ImgManager.STATE_RESOURCE_LOADING) {
         callbacks.imgLoading(this.count, this.data.images.length);
     }
-    else if(this.readyState == 4) {
+    else if(this.readyState == Topoboard.ImgManager.STATE_RESOURCE_READY) {
         callbacks.imgLoaded(this.imgs);
     }
 };
 let callbacks = {
     imgLoaded: function(imgs) {
         new Topoboard.Img({
-            layer: cirLayer,
-            image: imgs.bg,
-            dst: new Topoboard.CutParams(0, 0, board.getCanvas().width, board.getCanvas().height)
+            layer: bkLayer,
+            image: imgs.bg
         }).draw();
 
         let rect = new Topoboard.Rect({
@@ -34,7 +33,7 @@ let callbacks = {
 
         let circle = new Topoboard.Circle({
             layer: cirLayer,
-            o: [100, 100],
+            o: new Topoboard.Vector(100, 100),
             r: 20,
             width: 2,
             color: 'red',
@@ -43,14 +42,15 @@ let callbacks = {
         }).stroke();
 
         pl = new Topoboard.PolyLine({
-            layer: recLayer,
+            layer: plLayer,
             axis: [[10, 10], [40, 10], [40, 40], [10, 40]],
             width: 5,
             color: 'blue',
             closePath: true
         }).fill();
 
-        text && text.clear(), recLayer.remove(text);
+        text && text.clear(), recLayer.removeGraph(text);
+        board.refresh(true);
     },
     imgLoading: function(count, total) {
         text.content = 'loading: ' + count + '/' + total;
@@ -58,23 +58,31 @@ let callbacks = {
     imgInfoReady: function(total) {
         text = new Topoboard.Text({
             layer: recLayer,
-            position: [300, 300],
+            position: new Topoboard.Vector(300, 300),
             content: 'loading: 0/' + total,
-            font: '18px consola',
+            font: '18px 微软雅黑',
             color: '#f40'
         }).fill();
     }
 };
 
-let board = new Topoboard.Board(document.getElementById('myCanvas'));
-let cirLayer = new Topoboard.Layer(board, {id: 'cir1', layerName: '圆'});
-let recLayer = new Topoboard.Layer(board, {id: 'rec1', layerName: '折线'});
+let board = new Topoboard(document.getElementById('myCanvas'));
 
-let animation = new Topoboard.Animation(board);
+let bkLayer = board.newLayer('bk');
+let recLayer = board.newLayer('rec');
+let cirLayer = board.newLayer('cir');
+let plLayer = board.newLayer('polyline');
+
+let animation = new Topoboard.Animation();
 animation.onenterframe = function() {
-    pl && pl.axis[0][0] ++;
+    // console.log(arguments[0]);
+    plLayer.refresh();
+    board.refresh();
 };
-animation.start();
+animation.addTask(function() {
+    pl && pl.axis[0][0] ++;
+});
+// animation.start();
 
 let ctx = board.ctx;
 // ctx.beginPath();
@@ -95,5 +103,7 @@ console.log(board);
 
 window.board = board;
 window.ctx = board.ctx;
+window.bkLayer = bkLayer;
 window.cirLayer = cirLayer;
 window.recLayer = recLayer;
+window.plLayer = plLayer;

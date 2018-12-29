@@ -13,7 +13,7 @@ inherit(Circle, Graph, {
     fill: function() {
         let self = this;
         this.drawer.fill(function(ctx) {
-            ctx.arc(self.o[0], self.o[1], self.r, 0, Math.PI * 2, true);
+            ctx.arc(self.o.x, self.o.y, self.r, 0, Math.PI * 2, true);
             ctx.fillStyle = self.color;
             self.closePath && ctx.closePath();
         });
@@ -24,7 +24,7 @@ inherit(Circle, Graph, {
     stroke: function() {
         let self = this;
         this.drawer.stroke(function(ctx) {
-			ctx.arc(self.o[0], self.o[1], self.r, 0, Math.PI*2, true);
+			ctx.arc(self.o.x, self.o.y, self.r, 0, Math.PI*2, true);
 			ctx.strokeStyle = self.color;
 			ctx.lineWidth = self.width;
             self.closePath && ctx.closePath();

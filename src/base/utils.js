@@ -1,4 +1,16 @@
 /**
+ * 扩展字段方法
+ * @param obj
+ * @param fields
+ */
+function extend(obj, fields) {
+    for(let key in fields) {
+        let value = fields[key];
+        obj[key] = value;
+    }
+}
+
+/**
  * 继承方法
  * @param Child
  * @param Parent
@@ -8,10 +20,7 @@ function inherit(Child, Parent, childField) {
 	let F = function() {};
     F.prototype = Parent.prototype;
 	Child.prototype = new F();
-    for(let key in childField) {
-    	let value = childField[key];
-        Child.prototype[key] = value;
-	}
+    extend(Child.prototype, childField);
 	Object.defineProperties(Child.prototype, {
 	    'constructor': {
 	        value: Child,
@@ -84,7 +93,40 @@ function ajax({url, method = 'GET', data = '', success, type = 'json'}) {
     xhr.send(data);
 }
 
+/**
+ * 根据给定的元素模板
+ * 生成新的canvas对象
+ * canvas对象与给定的元素模板具有相同的宽度和高度
+ * @param ele
+ * @param newClassName
+ * @returns {HTMLElement}
+ */
+function newCanvas(ele, newClassName) {
+    let cacheCanvas = document.createElement('canvas');
+    if(newClassName) {
+        let className = cacheCanvas.className;
+        cacheCanvas.className += (className === ''? '': ' ') + newClassName;
+    }
+    cacheCanvas.width = ele.width || ele.clientWidth;
+    cacheCanvas.height = ele.height || ele.clientHeight;
+
+    return cacheCanvas;
+}
+
+/**
+ * 将srcCtx画布内容添加到destCtx画布中
+ * @param destCtx
+ * @param srcCtx
+ */
+function showCanvas(destCtx, srcCtx) {
+    destCtx.drawImage(srcCtx.canvas, 0, 0, destCtx.canvas.width, destCtx.canvas.height);
+}
+
+
 module.exports = {
-    inherit: inherit,
-    ajax: ajax
+    extend,
+    inherit,
+    ajax,
+    newCanvas,
+    showCanvas
 };

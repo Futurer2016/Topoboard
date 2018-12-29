@@ -35,14 +35,14 @@ const cancelAnimationFrame = (function () {
 /**
  *
  * @param board
- * @param period 每一次回调的间隔时间
+ * @param interval 每一次回调的间隔时间
  * @constructor
  */
-function Animation(board, interval) {
-	this.board = board;
+function Animation(interval) {
 	this.interval = interval || DEFAULT_INTERVAL;
 	this.timer = 0;
     this.state = STATE_INITIAL;
+    this.tasks = [];
 }
 
 /**
@@ -93,6 +93,12 @@ Animation.prototype.stop = function() {
     cancelAnimationFrame(this.timer);
 };
 
+Animation.prototype.addTask = function(task) {
+    this.tasks.push(task);
+
+    return this;
+};
+
 /**
  * 时间轴动画启动函数
  * @param animation 时间轴实例
@@ -116,11 +122,9 @@ function startAnimation(animation, startTime) {
 
         //如果当前时间与上一次回调的时间戳相差大于我们设置的间隔时间，表示可以执行一次回调函数。
         if (now - lastTick >= animation.interval) {
-        	if(animation.board) {
-				animation.board.clean();
-				animation.board.refresh();
-        	}
-            animation.onenterframe(now - startTime);
+            let duration = now - startTime;
+            animation.tasks.forEach(task => task(duration));
+            animation.onenterframe(duration);
             lastTick = now;
         }
     }

@@ -1,6 +1,8 @@
+const Vector = require('./Vector');
+
 function CutParams(x, y, w, h) {
-    this.x = x;
-    this.y = y;
+    Vector.call(this, x, y);
+
     this.w = w;
     this.h = h;
 }

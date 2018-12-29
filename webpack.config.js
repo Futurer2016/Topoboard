@@ -82,7 +82,7 @@ module.exports = {
 			}
 		]),
     	new HtmlWebpackPlugin({
-			filename: 'index.html',
+			filename: 'demo.html',
 			template: './src/demo.html',
 			minify: {
 				//压缩空白

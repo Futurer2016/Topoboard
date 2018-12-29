@@ -1,7 +1,9 @@
-function Shadow(color, x, y, blur) {
+const Vector = require('./Vector');
+
+function Shadow(x, y, color, blur) {
+    Vector.call(this, x, y);
+
     this.color = color;
-    this.x = x;
-    this.y = y;
     this.blur = blur;
 }
 
