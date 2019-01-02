@@ -1,11 +1,11 @@
 const Graph = require('./Graph');
 const {inherit} = require('../../base/utils');
 
-function Rect({layer, cutParams, width, color, shadow}) {
+function Rect({layer, cutParams, lineWidth, color, shadow}) {
     Graph.call(this, {layer, closePath: false, color, shadow});
 
     this.cutParams = cutParams;
-    this.width = width;
+    this.lineWidth = lineWidth;
 }
 
 inherit(Rect, Graph, {
@@ -13,7 +13,7 @@ inherit(Rect, Graph, {
         let self = this;
         ctx.rect(self.cutParams.x, self.cutParams.y, self.cutParams.w, self.cutParams.h);
         ctx.strokeStyle = self.color;
-        ctx.lineWidth = self.width;
+        ctx.lineWidth = self.lineWidth;
     },
     fill: function() {
         let self = this;

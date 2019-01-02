@@ -1,4 +1,4 @@
-let text, pl;
+let text, pl, circle, rect;
 
 let canvas = document.getElementById('myCanvas');
 let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
@@ -23,15 +23,15 @@ let callbacks = {
             image: imgs.bg
         }).draw();
 
-        let rect = new Topoboard.Rect({
+        rect = new Topoboard.Rect({
             layer: recLayer,
-            cutParams: {x: 20, y: 20, w: 100, h: 100},
-            width: 6,
+            cutParams: new TB.CutParams(20, 20, 100, 100),
+            lineWidth: 6,
             color: '#f40',
             shadow: new Topoboard.Shadow('#fff', 0, 0, 2)
         }).fill();
 
-        let circle = new Topoboard.Circle({
+        circle = new Topoboard.Circle({
             layer: cirLayer,
             o: new Topoboard.Vector(100, 100),
             r: 20,
@@ -43,7 +43,7 @@ let callbacks = {
 
         pl = new Topoboard.PolyLine({
             layer: plLayer,
-            axis: [[10, 10], [40, 10], [40, 40], [10, 40]],
+            axis: [new TB.Vector(10, 10), new TB.Vector(40, 10), new TB.Vector(40, 40), new TB.Vector(10, 40)],
             width: 5,
             color: 'blue',
             closePath: true
@@ -58,9 +58,9 @@ let callbacks = {
     imgInfoReady: function(total) {
         text = new Topoboard.Text({
             layer: recLayer,
-            position: new Topoboard.Vector(300, 300),
+            // position: new Topoboard.Vector(300, 300),
             content: 'loading: 0/' + total,
-            font: '18px 微软雅黑',
+            font: new TB.Font(18, '微软雅黑'),
             color: '#f40'
         }).fill();
     }
@@ -76,13 +76,17 @@ let plLayer = board.newLayer('polyline');
 let animation = new Topoboard.Animation();
 animation.onenterframe = function() {
     // console.log(arguments[0]);
-    plLayer.refresh();
-    board.refresh();
+    // plLayer.refresh();
+    // cirLayer.refresh();
+    // recLayer.refresh();
+    board.refresh(1);
 };
 animation.addTask(function() {
-    pl && pl.axis[0][0] ++;
+    pl && (pl.axis[0].x ++, pl.axis[0].y ++);
+    circle && circle.o.x ++;
+    rect && rect.cutParams.y ++;
 });
-// animation.start();
+animation.start();
 
 let ctx = board.ctx;
 // ctx.beginPath();

@@ -19,18 +19,19 @@ function Layer(board, className, alpha) {
 	this._hide_graphs = [];
 
 	className = 'board-canvas' + (typeof className == 'undefined'? '' : ' ' + className);
-    let canvas = newCanvas(this.board.ele, className);
-    let cacheCanvas = newCanvas(canvas, className);
+    // let canvas = newCanvas(this.board.ele, className);
+    // let cacheCanvas = newCanvas(canvas, className);
+    let cacheCanvas = newCanvas(this.board.ele, className);
     if(typeof this.alpha == 'undefined' || this.alpha === true) {
         //目标canvas上下文
-        this.destCtx = canvas.getContext('2d');
+        // this.destCtx = canvas.getContext('2d');
         //隐藏canvas上下文
         this.ctx = cacheCanvas.getContext('2d');
     }
     //不透明的画布
     else {
         //目标canvas上下文
-        this.destCtx = canvas.getContext('2d', {alpha: false});
+        // this.destCtx = canvas.getContext('2d', {alpha: false});
         //隐藏canvas上下文
         this.ctx = cacheCanvas.getContext('2d', {alpha: false});
     }
@@ -67,12 +68,12 @@ extend(Layer.prototype, {
     resize: function(width, height) {
         this.ctx.canvas.width = width || this.ctx.canvas.width;
         this.ctx.canvas.height = height || this.ctx.canvas.height;
-        this.destCtx.canvas.width = width || this.destCtx.canvas.width;
-        this.destCtx.canvas.height = height || this.destCtx.canvas.height;
+        // this.destCtx.canvas.width = width || this.destCtx.canvas.width;
+        // this.destCtx.canvas.height = height || this.destCtx.canvas.height;
     },
 	//导出图片
 	export() {
-        let imgData = this.destCtx.canvas.toDataURL();
+        let imgData = this.ctx.canvas.toDataURL();
         let img = new Image();
         img.src = imgData;
 
@@ -97,7 +98,7 @@ extend(Layer.prototype, {
     //擦除画板，擦除后可以使用refresh重新渲染
     clean: function() {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-        this.destCtx.clearRect(0, 0, this.destCtx.canvas.width, this.destCtx.canvas.height);
+        // this.destCtx.clearRect(0, 0, this.destCtx.canvas.width, this.destCtx.canvas.height);
     },
     //刷新
     refresh: function() {
@@ -105,7 +106,7 @@ extend(Layer.prototype, {
         //刷新图元信息
         this.graphs.forEach(graph => graph.refresh());
         //显示图片内容
-        showCanvas(this.destCtx, this.ctx);
+        // showCanvas(this.destCtx, this.ctx);
     },
 	//显示
     show: function() {

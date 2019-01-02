@@ -17,6 +17,7 @@ const {extend, newCanvas, showCanvas} = require('../base/utils');
 const Vector = require('./component/Vector');
 const CutParams = require('./component/CutParams');
 const Shadow = require('./component/Shadow');
+const Font = require('./component/Font');
 
 const ImgManager = require('./shapes/ImgManager');
 
@@ -27,6 +28,21 @@ const PolyLine = require('./shapes/PolyLine');
 const Rect = require('./shapes/Rect');
 const Img = require('./shapes/Img');
 const Text = require('./shapes/Text');
+
+//canvas 上树
+function upTree(canvas, ele, isBefore) {
+    //在前面插入子节点，要求元素已存在其他子节点
+    if(isBefore && ele.children.length) {
+        ele.insertBefore(canvas, ele.children[0]);
+    }
+    else {
+        ele.append(canvas);
+    }
+}
+//canvas 下树
+// function downTree(canvas) {
+//     canvas.remove();
+// }
 /**
  * 全局对象
  * @param ele
@@ -38,9 +54,9 @@ function Topoboard(ele) {
     this.layers = [];
     //隐藏的图层
     this._hide_layers = [];
-    let destLayer = new Layer(this, undefined, 'dest-canvas');
-    this.upTree(destLayer);
-    this.destCtx = destLayer.destCtx;
+    let destLayer = new Layer(this, 'dest-canvas');
+    upTree(destLayer.getContext().canvas, this.ele);
+    this.destCtx = destLayer.ctx;
 }
 
 /**
@@ -48,15 +64,18 @@ function Topoboard(ele) {
  */
 extend(Topoboard.prototype, {
     //调整画板大小
-    resize(width, height, isChangeDom) {
+    resize(width, height, isChangeContainer) {
         //修改Dom元素大小
-        if(isChangeDom) {
+        if(isChangeContainer) {
             this.ele.style.width = width + 'px';
             this.ele.style.height = height + 'px';
         }
+        //修改画布大小
         this.destCtx.canvas.width = width || this.destCtx.canvas.width;
         this.destCtx.canvas.height = height || this.destCtx.canvas.height;
+        //修改图层size
         this.layers.forEach(layer => layer.resize(width, height));
+        //刷新画布内容
         this.refresh(true);
     },
     //导出图片
@@ -84,20 +103,6 @@ extend(Topoboard.prototype, {
         this.pushLayer(layer);
         return layer;
     },
-    //canvas 上树
-    upTree(layer, isBefore) {
-        //在前面插入子节点，要求元素已存在其他子节点
-        if(isBefore && this.ele.children.length) {
-            this.ele.insertBefore(layer.destCtx.canvas, this.ele.children[0]);
-        }
-        else {
-            this.ele.append(layer.destCtx.canvas);
-        }
-    },
-    //canvas 下树
-    downTree(layer) {
-        layer.destCtx.canvas.remove();
-    },
     //在队列开始插入图层
     unshiftLayer(layer) {
         if(this.layers.indexOf(layer) > -1) {
@@ -108,14 +113,14 @@ extend(Topoboard.prototype, {
         // this.upTree(layer, true);
     },
     //从队列开始移除图层
-    shiftLayer() {
-        //末尾移除
-        let layer = this.layers.shift();
-        //canvas 下树
-        // this.downTree(layer);
-
-        return layer;
-    },
+    // shiftLayer() {
+    //     //末尾移除
+    //     let layer = this.layers.shift();
+    //     //canvas 下树
+    //     // this.downTree(layer);
+    //
+    //     return layer;
+    // },
     //添加已存在的图层对象,与 newLayer 不能对相同layer对象使用
     pushLayer(layer) {
         if(this.layers.indexOf(layer) > -1) {
@@ -127,14 +132,14 @@ extend(Topoboard.prototype, {
         // this.upTree(layer);
     },
     //从队列末尾移除图层
-    popLayer() {
-        //末尾移除
-        let layer = this.layers.pop();
-        //canvas 下树
-        // this.downTree(layer);
-
-        return layer;
-    },
+    // popLayer() {
+    //     //末尾移除
+    //     let layer = this.layers.pop();
+    //     //canvas 下树
+    //     // this.downTree(layer);
+    //
+    //     return layer;
+    // },
     //移除指定的图层对象
     removeLayer(layer) {
         //离开显示和隐藏队列
@@ -171,14 +176,17 @@ extend(Topoboard.prototype, {
         isLayerClean && this.layers.forEach(layer => layer.clean());
         this.destCtx.clearRect(0, 0, this.destCtx.canvas.width, this.destCtx.canvas.height);
     },
-    //刷新画板
+    /**
+     * 将所有图层重新绘制到画板
+     * @param isLayerRefresh 决定是否需要对每一个图层都进行刷新
+     */
     refresh: function(isLayerRefresh) {
         this.clean(isLayerRefresh);
         //刷新图层
         isLayerRefresh && this.layers.forEach(layer => layer.refresh());
         //刷新画板
         this.layers.forEach(layer => {
-            showCanvas(this.destCtx, layer.destCtx);
+            showCanvas(this.destCtx, layer.getContext());
         });
     }
 });
@@ -189,7 +197,7 @@ extend(Topoboard.prototype, {
 extend(Topoboard, {
     Animation, Layer, Circle, PolyLine, Rect, Img, Text,
     ImgManager,
-    Vector, CutParams, Shadow
+    Vector, CutParams, Shadow, Font
 });
 
 /**

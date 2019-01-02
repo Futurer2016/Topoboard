@@ -124,9 +124,14 @@ function showCanvas(destCtx, srcCtx) {
 
 
 module.exports = {
+    //扩展方法
     extend,
+    //继承
     inherit,
+    //异步网络请求
     ajax,
+    //创建新的canvas对象
     newCanvas,
+    //将srcCtx画布内容添加到destCtx画布中
     showCanvas
 };

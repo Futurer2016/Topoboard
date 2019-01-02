@@ -12,10 +12,10 @@ inherit(PolyLine, Graph, {
         let self = this;
         this.drawer.stroke(function(ctx) {
             let axis = self.axis;
-            ctx.moveTo(axis[0][0], axis[0][1]);
-            axis.forEach(function(value, key) {
+            ctx.moveTo(axis[0].x, axis[0].y);
+            axis.forEach(function(vector, key) {
                 if(key > 0) {
-                    ctx.lineTo(value[0], value[1]);
+                    ctx.lineTo(vector.x, vector.y);
                 }
             });
             ctx.strokeStyle = self.color;
@@ -31,10 +31,10 @@ inherit(PolyLine, Graph, {
         let self = this;
         this.drawer.fill(function(ctx) {
             let axis = self.axis;
-            ctx.moveTo(axis[0][0], axis[0][1]);
-            axis.forEach(function(value, key) {
+            ctx.moveTo(axis[0].x, axis[0].y);
+            axis.forEach(function(vector, key) {
                 if(key > 0) {
-                    ctx.lineTo(value[0], value[1]);
+                    ctx.lineTo(vector.x, vector.y);
                 }
             });
             ctx.fillStyle = self.color;
