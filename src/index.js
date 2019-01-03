@@ -1,4 +1,4 @@
-let text, pl, circle, rect;
+let text, pl, circle, rect, prec;
 
 let canvas = document.getElementById('myCanvas');
 let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
@@ -30,6 +30,14 @@ let callbacks = {
             color: '#f40',
             shadow: new Topoboard.Shadow('#fff', 0, 0, 2)
         }).fill();
+
+        prec = new Topoboard.Rect({
+            layer: recLayer,
+            cutParams: new TB.CutParams(30, 30, 200, 200),
+            lineWidth: 5,
+            color: '#4f0',
+            shadow: new Topoboard.Shadow('#000', 0, 0, 5)
+        }).stroke();
 
         circle = new Topoboard.Circle({
             layer: cirLayer,
@@ -86,7 +94,7 @@ animation.addTask(function() {
     circle && circle.o.x ++;
     rect && rect.cutParams.y ++;
 });
-animation.start();
+// animation.start();
 
 let ctx = board.ctx;
 // ctx.beginPath();

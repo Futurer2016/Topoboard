@@ -3,6 +3,9 @@ const Drawer = require('./Drawer');
 const Shadow = require('../component/Shadow');
 
 function Graph({layer, closePath, color, shadow}) {
+	if(! layer) {
+		throw Error('layer属性不能为空');
+	}
 	this.layer = layer;
     this.drawer = new Drawer(this, this.layer.getContext());
 	this.methods = [];
@@ -12,13 +15,30 @@ function Graph({layer, closePath, color, shadow}) {
 	this.color = color;
 	this.shadow = shadow || new Shadow(0, '#000', 0, 0);
 
-    this.layer.addGraph(this);
+    this.layer.pushGraph(this);
 }
 
+/**
+ * 扩展基本方法
+ */
 extend(Graph.prototype, {
     getLayer() {
         return this.layer;
     },
+	//置顶
+	top() {
+    	this.layer.removeGraph(this);
+    	this.layer.pushGraph(this);
+    	this.layer.refresh();
+    	this.layer.getBoard().refresh();
+	},
+	//置底
+	bottom() {
+    	this.layer.removeGraph(this);
+    	this.layer.unshiftGraph(this);
+    	this.layer.refresh();
+        this.layer.getBoard().refresh();
+	},
     push(method) {
         this.methods.push(method);
     }

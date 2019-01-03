@@ -45,24 +45,17 @@ extend(Layer.prototype, {
     getBoard: function() {
         return this.board;
     },
-    unshiftLayer() {
-        this.board.unshiftLayer(this);
-    },
-    pushLayer() {
-        this.board.pushLayer(this);
-    },
-    remove() {
-        this.board.removeLayer(this);
-    },
     //将 layer 置顶
     top() {
-        this.remove();
-        this.pushLayer();
+        this.board.removeLayer(this);
+        this.board.pushLayer(this);
+        this.board.refresh();
     },
     //将 layer 置底
     bottom() {
-        this.remove();
-        this.unshiftLayer();
+        this.board.removeLayer(this);
+        this.board.unshiftLayer(this);
+        this.board.refresh();
     },
     //重置canvas的大小
     resize: function(width, height) {
@@ -79,6 +72,47 @@ extend(Layer.prototype, {
 
         return img;
 	}
+});
+
+/**
+ * 扩展图元相关方法
+ */
+extend(Layer.prototype, {
+    //获取图元列表
+    getGraphs: function() {
+        return this.graphs;
+    },
+    //在队列前面插入图元
+    unshiftGraph(graph) {
+        if(this.graphs.indexOf(graph) > -1) {
+            return;
+        }
+        this.graphs.unshift(graph);
+    },
+    //在队列前面移除图元
+    // shiftGraph() {
+    //     let graph = this.graphs.shift();
+    //
+    //     return graph;
+    // },
+    //在队列末尾追加图元
+    pushGraph: function(graph) {
+        if(this.graphs.indexOf(graph) > -1) {
+            return;
+        }
+        this.graphs.push(graph);
+    },
+    //在队列末尾移除图元
+    // popGraph() {
+    //     let graph = this.graphs.pop();
+    //
+    //     return graph;
+    // },
+    //删除图元
+    removeGraph: function(graph) {
+        this.graphs.splice(this.graphs.indexOf(graph), 1);
+        this._hide_graphs.splice(this._hide_graphs.indexOf(graph), 1);
+    }
 });
 
 /**
@@ -105,8 +139,6 @@ extend(Layer.prototype, {
         this.clean();
         //刷新图元信息
         this.graphs.forEach(graph => graph.refresh());
-        //显示图片内容
-        // showCanvas(this.destCtx, this.ctx);
     },
 	//显示
     show: function() {
@@ -119,28 +151,6 @@ extend(Layer.prototype, {
         if(this.graphs.length == 0) {return;}
         this._hide_graphs = this.graphs;
         this.graphs = [];
-    }
-});
-
-/**
- * 扩展图元相关方法
- */
-extend(Layer.prototype, {
-    //获取图元对象
-    getGraph: function(index) {
-        return this.graphs[index];
-    },
-    //获取图元列表
-    getGraphs: function() {
-        return this.graphs;
-    },
-    //添加图元
-    addGraph: function(item) {
-        this.graphs.push(item);
-    },
-    //删除图元
-    removeGraph: function(item) {
-        this.graphs.splice(this.graphs.indexOf(item), 1);
     }
 });
 

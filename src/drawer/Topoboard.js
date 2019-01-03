@@ -105,17 +105,19 @@ extend(Topoboard.prototype, {
     },
     //在队列开始插入图层
     unshiftLayer(layer) {
-        if(this.layers.indexOf(layer) > -1) {
+        let layers = this._hide_layers.length > 0? this._hide_layers: this.layers;
+        if(layers.indexOf(layer) > -1) {
             return;
         }
-        this.layers.unshift(layer);
+        layers.unshift(layer);
         //canvas 上树
         // this.upTree(layer, true);
     },
     //从队列开始移除图层
     // shiftLayer() {
+    //     let layers = this._hide_layers.length > 0? this._hide_layers: this.layers;
     //     //末尾移除
-    //     let layer = this.layers.shift();
+    //     let layer = layers.shift();
     //     //canvas 下树
     //     // this.downTree(layer);
     //
@@ -123,18 +125,20 @@ extend(Topoboard.prototype, {
     // },
     //添加已存在的图层对象,与 newLayer 不能对相同layer对象使用
     pushLayer(layer) {
-        if(this.layers.indexOf(layer) > -1) {
+        let layers = this._hide_layers.length > 0? this._hide_layers: this.layers;
+        if(layers.indexOf(layer) > -1) {
             return;
         }
         //加入显示队列
-        this.layers.push(layer);
+        layers.push(layer);
         //canvas 上树
         // this.upTree(layer);
     },
     //从队列末尾移除图层
     // popLayer() {
+    //     let layers = this._hide_layers.length > 0? this._hide_layers: this.layers;
     //     //末尾移除
-    //     let layer = this.layers.pop();
+    //     let layer = layers.pop();
     //     //canvas 下树
     //     // this.downTree(layer);
     //
@@ -144,7 +148,7 @@ extend(Topoboard.prototype, {
     removeLayer(layer) {
         //离开显示和隐藏队列
         this.layers.splice(this.layers.indexOf(layer), 1);
-        this._hide_layers.splice(this.layers.indexOf(layer), 1);
+        this._hide_layers.splice(this._hide_layers.indexOf(layer), 1);
         //canvas 下树
         // this.downTree(layer);
     }
