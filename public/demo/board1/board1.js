@@ -1,7 +1,8 @@
 const { createBoardBox, createElement } = require('../util/dom');
 
 let { container, btnBox, imgViewBox } = createBoardBox('board1', '静态图层与动态图层独立渲染');
-let loading, pl, circle, rect, prec, mouseline;
+let loading, pl, circle, rect, prec;
+let top, right, bottom, left;
 
 let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
 imgManager.load();
@@ -28,9 +29,9 @@ let callbacks = {
         // 填充长方体
         rect = new Topoboard.graphs.Rect({
             layer: recLayer,
-            expand: new TB.model.Expand(20, 20, 100, 100),
+            expand: new TB.model.Expand(100, 100, 80, 80),
             lineWidth: 6,
-            color: '#f40',
+            color: '#fcc',
             shadow: new TB.model.Shadow(0, 0, '#fff', 2)
         }).fill();
         rect.addEventListener('click', e => {
@@ -39,11 +40,20 @@ let callbacks = {
         // 边框长方体
         prec = new Topoboard.graphs.Rect({
             layer: recLayer,
-            expand: new TB.model.Expand(30, 30, 200, 200),
-            lineWidth: 5,
+            expand: new TB.model.Expand(50, 50, 400, 200),
+            lineWidth: 4,
             color: '#4f0',
             shadow: new TB.model.Shadow(0, 0, '#fff', 5)
         }).stroke();
+        // 外盒子
+        let box = prec.expand;
+        let offset = prec.lineWidth / 2;
+        left = box.x + offset;
+        right = box.x + box.w - offset;
+        top = box.y + offset;
+        bottom = box.y + box.h - offset;
+        console.log(top, right, bottom, left);
+
         prec.addEventListener('click', e => {
             console.log('rect', this, e);
         });
@@ -59,17 +69,6 @@ let callbacks = {
         }).stroke();
         circle.addEventListener('click', function(e) {
             console.log('circle', this, e);
-        });
-        // 折线绘制
-        pl = new Topoboard.graphs.PolyLine({
-            layer: plLayer,
-            path: [new TB.model.Vector(10, 10), new TB.model.Vector(40, 10), new TB.model.Vector(40, 40), new TB.model.Vector(10, 40)],
-            width: 5,
-            color: 'blue',
-            closePath: true
-        }).stroke();
-        pl.addEventListener('click', function(e) {
-            console.log('polyline', this, e);
         });
 
         // 结束加载中图层
@@ -107,7 +106,6 @@ let loadingLayer = board.newLayer('loading-layer');
 let bkLayer = board.newLayer('bk-layer');
 let recLayer = board.newLayer('rec-layer');
 let cirLayer = board.newLayer('cir-layer');
-let plLayer = board.newLayer('polyline-layer');
 // 加载中动画
 let loadingAni = new Topoboard.Animation(500);
 loadingAni.onenterframe = function() {
@@ -133,30 +131,134 @@ loadingAni.start();
 
 let animation = new Topoboard.Animation();
 animation.onenterframe = function() {
-    plLayer.refresh(true); // 图层存在动画, 需要刷新
+    recLayer.refresh(true);
     cirLayer.refresh(true); // 图层存在动画, 需要刷新
     board.refresh(); // 画板存在动画, 需要刷新
 };
-let step = 1;
+
+// 圆动画
+let dx = 2;
+let dy = 2;
+let speed = 3;
 animation.addTask(function() {
-    if(pl) {
-        if(pl.path[0].x > 100) {
-            step = -1;
+    if(! circle) {
+        return;
+    }
+    let x = circle.o.x;
+    let y = circle.o.y;
+    let r = circle.r;
+    let cl = x - r;
+    let cr = x + r;
+    let ct = y - r;
+    let cb = y + r;
+
+    if(cr>= right) {
+        dx = -speed;
+    }
+    else if(cl <= left) {
+        dx = speed;
+    }
+    if(cb >= bottom) {
+        dy = -speed;
+    }
+    else if(ct <= top) {
+        dy = speed;
+    }
+    // 障碍物
+    let t = rect.expand;
+    let toffset = rect.lineWidth / 2;
+    let tleft = t.x - toffset;
+    let tright = t.x + t.w + toffset;
+    let ttop = t.y - toffset;
+    let tbottom = t.y + t.h + toffset;
+    // 避开障碍物
+    // 左右
+    if(y + r / 2 >= ttop && y - r / 2 <= tbottom) {
+        // 右
+        if(x > tright && cl <= tright) {
+            console.log('右', cl, tright);
+            dx = speed;
         }
-        else if(pl.path[0].x < 0) {
-            step = 1
+        // 左
+        else if(x < tleft && cr >= tleft) {
+            console.log('左', cr, tleft);
+            dx = -speed;
         }
-        // 折线动画
-        pl.path[0].x = pl.path[0].x + step;
-        pl.path[0].y = pl.path[0].y + step;
-    };
+    }
+    else if(x - r / 2 <= tright && x + r / 2 >= tleft) {
+        // 下
+        if(y > tbottom && ct >= tbottom) {
+            console.log('下', ct, tbottom);
+            dy = speed;
+        }
+        // 上
+        else if(y < ttop && cb >= ttop) {
+            console.log('上', cb, ttop);
+            dy = -speed;
+        }
+    }
+
+    circle.o.x += dx;
+    circle.o.y += dy;
 });
+
+// 填充框动画, 抛物体
+let vx = 5;
+let vy = -20;
+let g = 1;
+let menus = 3;
 animation.addTask(function() {
-    // 圆动画
-    circle && (circle.o.x += step, circle.r += step);
-    // rect && rect.expand.y ++;
-    //鼠标移动事件
+    if(! rect) {
+        return;
+    }
+    let t = rect.expand;
+    let toffset = rect.lineWidth / 2;
+    let tleft = t.x - toffset;
+    let tright = t.x + t.w + toffset;
+    let ttop = t.y - toffset;
+    let tbottom = t.y + t.h + toffset;
+
+    if(vx < 0 && tleft <= left) {
+        if(vx > menus) {
+            vx -= menus;
+        }
+        vx = -vx;
+    }
+    if(vx > 0 && tright >= right) {
+        if(vx >= menus) {
+            vx -= menus;
+        }
+        vx = -vx;
+    }
+    if(vy < 0 && ttop <= top) {
+        vy = -vy;
+    }
+    if(vy > 0 && tbottom >= bottom) {
+        if(vy >= menus) {
+            vy -= menus;
+        }
+        vy = -vy;
+    }
+
+    if(Math.abs(vy) < 1) vy = 0;
+
+    rect.expand.x += vx;
+    rect.expand.y += vy;
+    
+    if(vy == 0 && Math.abs(tbottom - bottom) < 2) {
+        vy = 0;
+        if(vx >= menus) {
+            vx -= menus;
+        }
+        else {
+            vx = 0;
+        }
+    }
+    else {
+        vy += g;
+    }
 });
+
 animation.start();
 
 console.log(board);
