@@ -10,12 +10,13 @@ module.exports = {
 	devtool: 'inline-source-map', 
 	//入口文件
 	entry: {
-		Topoboard: './src/drawer/Topoboard.js',
-		index: './src/index.js'
-    },
+		// Topoboard: './src/core/index.js', // 核心接口模块
+		Topoboard: './src/graphs/index.js', // 图形扩展模块, 基于核心接口扩展, 包含核心接口
+		index: './public/demo/index.js'
+  },
 	//输出文件
 	output: {
-		path: path.resolve(__dirname, 'dest'),
+		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].js'
 	}, 
 	//应用loader
@@ -70,8 +71,8 @@ module.exports = {
 		]
 	},
 	//应用插件
-    plugins: [
-    	new CopyWebpackPlugin([
+  plugins: [
+    new CopyWebpackPlugin([
 			{
 				from: 'src/img/*',
 				to: 'img/[name].[ext]'
@@ -81,17 +82,17 @@ module.exports = {
 				to: '[name].[ext]'
 			}
 		]),
-    	new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
 			filename: 'demo.html',
-			template: './src/demo.html',
+			template: './public/demo/demo.html',
 			minify: {
 				//压缩空白
 				collapseWhitespace: false
 			}
 		})
 	],
-    devServer: {
-		contentBase: path.join(__dirname, "dest"),
+  devServer: {
+		contentBase: path.join(__dirname, "dist"),
 		compress: true,
 		port: 9000
 	}
