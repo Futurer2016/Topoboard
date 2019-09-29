@@ -1,6 +1,6 @@
 const { createBoardBox, createElement } = require('../util/dom');
 
-let { container, btnBox, imgViewBox } = createBoardBox('board1', '静态图层与动态图层独立渲染');
+let { container, btnBox, imgViewBox } = createBoardBox('board1', '匀速运动与抛物运动与碰撞检查');
 let loading, pl, circle, rect, prec;
 let top, right, bottom, left;
 
@@ -39,7 +39,7 @@ let callbacks = {
         });
         // 边框长方体
         prec = new Topoboard.graphs.Rect({
-            layer: recLayer,
+            layer: boxLayer,
             expand: new TB.model.Expand(50, 50, 400, 200),
             lineWidth: 4,
             color: '#4f0',
@@ -104,6 +104,7 @@ let board = new Topoboard(container, ['click']);
 
 let loadingLayer = board.newLayer('loading-layer');
 let bkLayer = board.newLayer('bk-layer');
+let boxLayer = board.newLayer('box-layer');
 let recLayer = board.newLayer('rec-layer');
 let cirLayer = board.newLayer('cir-layer');
 // 加载中动画
@@ -176,24 +177,24 @@ animation.addTask(function() {
     if(y + r / 2 >= ttop && y - r / 2 <= tbottom) {
         // 右
         if(x > tright && cl <= tright) {
-            console.log('右', cl, tright);
+            // console.log('右', cl, tright);
             dx = speed;
         }
         // 左
         else if(x < tleft && cr >= tleft) {
-            console.log('左', cr, tleft);
+            // console.log('左', cr, tleft);
             dx = -speed;
         }
     }
     else if(x - r / 2 <= tright && x + r / 2 >= tleft) {
         // 下
         if(y > tbottom && ct >= tbottom) {
-            console.log('下', ct, tbottom);
+            // console.log('下', ct, tbottom);
             dy = speed;
         }
         // 上
         else if(y < ttop && cb >= ttop) {
-            console.log('上', cb, ttop);
+            // console.log('上', cb, ttop);
             dy = -speed;
         }
     }
