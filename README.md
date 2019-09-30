@@ -2,12 +2,12 @@
 本项目致力于将绘图模式的canvas上下文CanvasRenderingContext2D, 整理成面向对象的使用模式, 不再不需要获取CanvasRenderingContext2D, 不再需要moveTo、lineTo, 不再需要beginPath、closePath, 不再需要面向过程编程。
 
 ## 可实现的功能
-1. 匀速运动与抛物运动与碰撞检查
+### 匀速运动与抛物运动与碰撞检查
 ![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board1.gif)
-2. 实现一个柱状图
+### 实现一个柱状图
 ![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board2.gif)
-3. 实现一个Topo图
-![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board3.gif)
+### 实现一个Topo图
+![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board3.png)
 
 ## 起步
 当你需要开始一个canvas时, 你需要在页面中提供一个容器, 并提供指定的宽高, 如: 
