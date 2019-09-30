@@ -1,8 +1,12 @@
 function getFragment() {
   return document.createDocumentFragment();
 }
-function createElement(nodeName) {
-  return document.createElement(nodeName);
+function createElement(nodeName, options) {
+  let node = document.createElement(nodeName);
+  options && Object.keys(options).forEach(attr => {
+    node[attr] =  options[attr];
+  });
+  return node;
 }
 /**
 		<h2 class="title">实现一个Topo图</h2>
@@ -12,26 +16,23 @@ function createElement(nodeName) {
  */
 function createBoardBox(id, title) {
   let frag = getFragment();
-  let box = createElement('div');
-  box.className = 'fl';
+  let box = createElement('div', {className: 'box'});
   frag.appendChild(box);
 
-  let h2 = createElement('h2');
-  h2.innerText = title;
+  let h2 = createElement('h2', {innerText: title});
   box.appendChild(h2);
 
-  let container = createElement('div');
-  container.id = id;
-  container.className = 'board-container';
-  box.appendChild(container);
+  let content = createElement('div', {className: 'box-content clearfix'});
+  box.appendChild(content);
 
-  let btnBox = createElement('div');
-  btnBox.className = 'btns';
+  let container = createElement('div', {id: id, className: 'board-container fl'});
+  content.appendChild(container);
+
+  let imgViewBox = createElement('div', {className: 'img-view fl'});
+  content.appendChild(imgViewBox);
+
+  let btnBox = createElement('div', {className: 'btns'});
   box.appendChild(btnBox);
-
-  let imgViewBox = createElement('div');
-  imgViewBox.className = 'img-view';
-  box.appendChild(imgViewBox);
 
   document.body.appendChild(frag);
 
@@ -40,6 +41,16 @@ function createBoardBox(id, title) {
   };
 }
 
+let addBtn = (btnBox, title, onclick) => {
+  let btn = createElement('button', {
+    innerText: title, 
+    onclick: function(e) {
+      onclick.call(this, e);
+    }
+  });
+  btnBox.appendChild(btn);
+}
+
 module.exports = {
-  getFragment, createElement, createBoardBox
+  getFragment, createElement, createBoardBox, addBtn
 };

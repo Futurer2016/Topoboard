@@ -182,7 +182,7 @@ extend(Layer.prototype, {
     trigger(event) {
         // 图层隐藏状态
 		if(! this.visible) {
-			return true;
+			return;
         }
         let bubble;
         let ret;
@@ -204,7 +204,7 @@ extend(Layer.prototype, {
     triggerGraphEvent(event) {
         // 图层隐藏状态
 		if(! this.visible) {
-			return true;
+			return;
         }
         let graphs = this.graphs;
         for(let i = graphs.length - 1; i >= 0; i --) {

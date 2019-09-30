@@ -207,7 +207,7 @@ extend(Topoboard.prototype, {
     triggerLayerEvent(event) {
         // board 隐藏状态
 		if(! this.visible) {
-			return true;
+			return;
         }
         let layers = this.layers;
         let bubble = false;

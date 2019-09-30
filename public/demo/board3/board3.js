@@ -1,4 +1,4 @@
-const { createBoardBox, createElement } = require('../util/dom');
+const { createBoardBox, createElement, addBtn } = require('../util/dom');
 
 /**
  * topo图
@@ -203,21 +203,12 @@ window.board3 = board;
 
 // 注册页面按钮事件
 let img = createElement('img');
-
-let addBtn = (title, onclick) => {
-  let btn = createElement('button');
-  btn.innerText = title;
-  btn.onclick = function(e) {
-    onclick.call(this, e);
-  }
-  btnBox.appendChild(btn);
-}
-addBtn('预览图片', e => {
+addBtn(btnBox, '预览图片', e => {
   let data = board.snapshot();
   img.src = data;
   imgViewBox.appendChild(img);
 });
-addBtn('导出图片', e => {
+addBtn(btnBox, '导出图片', e => {
   board.download();
 });
 board.layers.forEach(layer => {
@@ -225,7 +216,7 @@ board.layers.forEach(layer => {
     return;
   }
   let title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
-  addBtn(title, (e) => {
+  addBtn(btnBox, title, (e) => {
     layer.toggle();
     title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
     e.target.innerText = title;

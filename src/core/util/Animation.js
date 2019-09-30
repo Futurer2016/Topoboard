@@ -59,6 +59,9 @@ extend(Animation.prototype, {
     
         startAnimation(this, +new Date());
     },
+    isStarted: function() {
+        return this.state === STATE_START;
+    },
     /**
      * 重新开始动画
      */
@@ -86,6 +89,9 @@ extend(Animation.prototype, {
             this.dur = +new Date() - this.startTime;
         }
         cancelAnimationFrame(this.timer);
+    },
+    isStopped: function() {
+        return this.state === STATE_STOP;
     },
     /**
      * 添加每一帧动画需要执行的事务
