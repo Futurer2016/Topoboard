@@ -271,13 +271,13 @@ loadingAni.restart();
 
 ## 性能优化
 当存在graph、layer修改时, 可以 通过```board.refresh(true)```强制刷新所有layer和graph。应该注意的是，这样的操作是相当**消耗性能**的, 因为不论图层是否有变动, 图层及其下的所有graph都要重新绘制一次。
-当board中存在某一个graph需要进行动画处理时, 应该尽量把它划分到单独图层中, 再进行精确刷新处理。比如像下面这种处理方式是比较高性能的处理方式:
+当board中存在某一个 graph 需要进行动画处理时, 应该尽量把它划分到单独图层中, 再进行精确刷新处理。比如像下面这种处理方式是比较高性能的处理方式:
 ```js
 graph.refresh();
 layer.refresh();
 board.refresh();
 ```
-或者尽量把存在动画的所有grph划分到专有的layer中,然后采用如下 方式进行刷新:
+或者尽量把存在动画的所有 graph 划分到专有的layer中,然后采用如下 方式进行刷新:
 ```js
 layer.refresh(true);
 board.refresh();
