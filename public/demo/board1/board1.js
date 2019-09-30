@@ -1,8 +1,11 @@
 const { createBoardBox, createElement } = require('../util/dom');
+const { download } = require('../../../src/core/util/utils');
 
-let { container, btnBox, imgViewBox } = createBoardBox('board1', '匀速运动与抛物运动与碰撞检查');
 let loading, pl, circle, rect, prec;
 let top, right, bottom, left;
+let h2 = '匀速运动与抛物运动与碰撞检查';
+
+let { container, btnBox, imgViewBox } = createBoardBox('board1', h2);
 
 let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
 imgManager.load();
@@ -29,7 +32,7 @@ let callbacks = {
         // 填充长方体
         rect = new Topoboard.graphs.Rect({
             layer: recLayer,
-            expand: new TB.model.Expand(100, 100, 80, 80),
+            expand: new TB.model.Expand(150, 100, 80, 80),
             lineWidth: 6,
             color: '#fcc',
             shadow: new TB.model.Shadow(0, 0, '#fff', 2)
@@ -52,7 +55,7 @@ let callbacks = {
         right = box.x + box.w - offset;
         top = box.y + offset;
         bottom = box.y + box.h - offset;
-        console.log(top, right, bottom, left);
+        // console.log(top, right, bottom, left);
 
         prec.addEventListener('click', e => {
             console.log('rect', this, e);
@@ -74,6 +77,9 @@ let callbacks = {
         // 结束加载中图层
         loadingAni.stop(), loadingLayer.remove();
         board.refresh(true);
+        setTimeout(() => {
+            animation.start();
+        }, 500);
     },
     // 更新加载中信息内容
     imgLoading: function(count, total) {
@@ -107,6 +113,7 @@ let bkLayer = board.newLayer('bk-layer');
 let boxLayer = board.newLayer('box-layer');
 let recLayer = board.newLayer('rec-layer');
 let cirLayer = board.newLayer('cir-layer');
+
 // 加载中动画
 let loadingAni = new Topoboard.Animation(500);
 loadingAni.onenterframe = function() {
@@ -204,9 +211,13 @@ animation.addTask(function() {
 });
 
 // 填充框动画, 抛物体
+// x速度
 let vx = 5;
-let vy = -20;
+// y速度
+let vy = -16;
+// 加速度
 let g = 1;
+// 阻尼
 let menus = 3;
 animation.addTask(function() {
     if(! rect) {
@@ -260,8 +271,6 @@ animation.addTask(function() {
     }
 });
 
-animation.start();
-
 console.log(board);
 
 window.board1 = board;
@@ -295,4 +304,36 @@ board.layers.forEach(layer => {
         title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
         e.target.innerText = title;
     });
+});
+
+// 动画录制
+let gifAni = new Topoboard.Animation();
+let addFrame = false, i =  0;
+gifAni.onenterframe = function() {
+    addFrame &&  !(i ++ % 3) && gif.addFrame(board.ctx, {copy: true, delay: 1000 / 60});
+};
+gifAni.start();
+addBtn('开始录制', e => {
+    addFrame = ! addFrame;
+    if(addFrame) {
+        e.target.innerText = '结束录制';
+    }
+    else {
+        e.target.innerText = '开始录制';
+        gif.render();
+    }
+});
+
+var gif = new GIF({
+    worker: 1,
+    quality: 1,
+    width: 500,
+    height: 300
+});
+gif.on('finished', function(blob) {
+    console.log('record finished');
+    let data = URL.createObjectURL(blob);
+    img.src = data;
+    imgViewBox.appendChild(img);
+    // download(data, 'board1');
 });

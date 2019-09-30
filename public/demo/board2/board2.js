@@ -1,4 +1,5 @@
 const { createBoardBox, createElement } = require('../util/dom');
+const { download } = require('../../../src/core/util/utils');
 
 /**
  * 柱形图
@@ -255,4 +256,35 @@ board.layers.forEach(layer => {
     title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
     e.target.innerText = title;
   });
+});
+// 动画录制
+let gifAni = new Topoboard.Animation();
+let addFrame = false, i =  0;
+gifAni.onenterframe = function() {
+    addFrame &&  !(i ++ % 3) && gif.addFrame(board.ctx, {copy: true, delay: 1000 / 60});
+};
+gifAni.start();
+addBtn('开始录制', e => {
+    addFrame = ! addFrame;
+    if(addFrame) {
+        e.target.innerText = '结束录制';
+    }
+    else {
+        e.target.innerText = '开始录制';
+        gif.render();
+    }
+});
+
+var gif = new GIF({
+    worker: 1,
+    quality: 1,
+    width: 500,
+    height: 300
+});
+gif.on('finished', function(blob) {
+    console.log('record finished');
+    let data = URL.createObjectURL(blob);
+    img.src = data;
+    imgViewBox.appendChild(img);
+    download(data, 'board2');
 });
