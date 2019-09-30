@@ -8,6 +8,8 @@
 ![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board2.gif)
 ### 实现一个Topo图
 ![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board3.png)
+### 炫彩小球
+![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board4.gif)
 
 ## 起步
 当你需要开始一个canvas时, 你需要在页面中提供一个容器, 并提供指定的宽高, 如: 
