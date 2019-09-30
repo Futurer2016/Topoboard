@@ -1,5 +1,4 @@
-const { createBoardBox, createElement, addBtn } = require('../util/dom');
-const { download } = require('../../../src/core/util/utils');
+const { createBoardBox, createElement, addBtn, download } = require('../util/dom');
 
 /**
  * 柱形图

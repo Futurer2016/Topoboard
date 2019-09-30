@@ -1,4 +1,5 @@
-import './board1/board1';
-import './board2/board2';
-import './board3/board3';
-import './board4/board4';
+import './less/demo.less';
+import './js/boards/board1';
+import './js/boards/board2';
+import './js/boards/board3';
+import './js/boards/board4';

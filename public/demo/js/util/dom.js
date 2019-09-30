@@ -51,6 +51,13 @@ let addBtn = (btnBox, title, onclick) => {
   btnBox.appendChild(btn);
 }
 
+function download(href, title) {
+  let a = document.createElement('a');
+  a.href = href;
+  a.download = title || 'canvas-' + +new Date();
+  a.click();
+}
+
 module.exports = {
-  getFragment, createElement, createBoardBox, addBtn
+  getFragment, createElement, createBoardBox, addBtn, download
 };
