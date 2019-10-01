@@ -14,16 +14,17 @@ function Drawer(graph, ctx) {
 
 extend(Drawer.prototype, {
 	closePath: function() {
-		this.ctx.closePath();
+		this.graph.closePath && this.ctx.closePath();
 	},
 	draw: function(executor) {
 		this.ctx.beginPath();
-		this.ctx.fillStyle = this.graph.color;
 		addShadow(this.ctx, this.graph.shadow);
     executor && executor(this.ctx);
 	}, 
 	fill: function(executor) {
 		this.draw(executor);
+		this.ctx.fillStyle = this.graph.style;
+		this.closePath();
 		this.ctx.fill();
 		this.filled = true;
 	}, 
@@ -32,6 +33,8 @@ extend(Drawer.prototype, {
 	},
 	stroke: function(executor) {
 		this.draw(executor);
+		this.ctx.strokeStyle = this.graph.style;
+		this.closePath();
 		this.ctx.stroke();
 		this.stroked = true;
 	},

@@ -29,7 +29,7 @@ let rect = new Topoboard.graphs.Rect({
   layer: bkLayer,
   expand: new TB.model.Expand(0, 0, 500, 300),
   lineWidth: 2,
-  color: '#000'
+  style: '#000'
 }).fill();
 
 board.refresh(true);
@@ -44,10 +44,9 @@ board.addEventListener('mousemove', (e) => {
   // 生成一个球
   let ball = new Topoboard.graphs.Circle({
     layer: ballLayer,
-    o: new TB.model.Vector(x, y),
-    r: 20,
+    radial: new TB.model.Radial(x, y, 20),
     width: 2,
-    color: randomColor(),
+    style: randomColor(),
     closePath: true,
     shadow: new TB.model.Shadow(0, 0, '#fff', random(0, maxBlur))
   }).fill();
@@ -57,10 +56,9 @@ board.addEventListener('mousemove', (e) => {
   // 生成第二个球
   ball = new Topoboard.graphs.Circle({
     layer: ballLayer,
-    o: new TB.model.Vector(x, y),
-    r: 10,
+    radial: new TB.model.Radial(x, y, 10),
     width: 2,
-    color: randomColor(),
+    style: randomColor(),
     closePath: true,
     shadow: new TB.model.Shadow(0, 0, '#fff', random(0, maxBlur))
   }).fill();
@@ -97,8 +95,8 @@ animation.addTask(function() {
 });
 animation.addTask(() => {
   balls.forEach(ball => {
-    ball.o.x += ball.dx;
-    ball.o.y += ball.dy;
+    ball.radial.x += ball.dx;
+    ball.radial.y += ball.dy;
   });
 });
 animation.onenterframe = function() {

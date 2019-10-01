@@ -7,7 +7,7 @@ const Shadow = require('../model/Shadow');
 
 let count = 0;
 
-function Graph({layer, closePath, color, shadow, visible = true}) {
+function Graph({layer, closePath, style, shadow, visible = true}) {
 	if(! layer) {
 		throw Error('layer属性不能为空');
 	}
@@ -24,7 +24,7 @@ function Graph({layer, closePath, color, shadow, visible = true}) {
 	this.methods = [];
 	this.closePath = closePath;
 
-	this.color = color;
+	this.style = style;
 	this.shadow = shadow || new Shadow(0, '#000', 0, 0);
 
 	this.events = {};

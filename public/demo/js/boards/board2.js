@@ -41,7 +41,7 @@ let callbacks = {
         new TB.model.Vector(450, 200)
       ],
       width: 2,
-      color: 'lightblue',
+      style: 'lightblue',
       closePath: false
     }).stroke();
     // 填充长方体
@@ -52,7 +52,7 @@ let callbacks = {
         layer: recLayer,
         expand: new TB.model.Expand(60 * (index + 1), 200, 40, 0),
         lineWidth: 1,
-        color: '#008c8c',
+        style: '#008c8c',
         shadow: new TB.model.Shadow('#fff', 0, 0, 2)
       }).fill();
       // 值
@@ -61,7 +61,7 @@ let callbacks = {
           position: new TB.model.Vector(60 * (index + 1), 200),
           content: 0,
           font: new TB.model.Font(18, '微软雅黑'),
-          color: '#f40'
+          style: '#f40'
       }).fill();
       // 标题
       let title = new Topoboard.graphs.Text({
@@ -69,14 +69,14 @@ let callbacks = {
           position: new TB.model.Vector(60 * (index + 1), 220),
           content: 'title' + (index + 1),
           font: new TB.model.Font(18, '微软雅黑'),
-          color: '#f40'
+          style: '#f40'
       }).fill();
       // 浮窗框
       let modalBox = new Topoboard.graphs.Rect({
         layer: modalLayer,
         expand: new TB.model.Expand(0, 0, 100, 30),
         lineWidth: 1,
-        color: '#fffc',
+        style: '#fffc',
         shadow: new TB.model.Shadow('#fff', 0, 0, 2),
         visible: false
       }).fill();
@@ -86,7 +86,7 @@ let callbacks = {
         position: new TB.model.Vector(0, 0),
         content: '',
         font: new TB.model.Font(18, '微软雅黑'),
-        color: '#f40',
+        style: '#f40',
         visible: false
       }).fill();
 
@@ -137,7 +137,7 @@ let callbacks = {
       layer: loadingLayer,
       content: 'loading: 0/' + total,
       font: new TB.model.Font(18, '微软雅黑'),
-      color: '#f40'
+      style: '#f40'
     }).fill();
     loading.count = 0;
     loading.total = total;

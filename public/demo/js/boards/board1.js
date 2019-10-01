@@ -33,7 +33,7 @@ let callbacks = {
             layer: recLayer,
             expand: new TB.model.Expand(150, 100, 80, 80),
             lineWidth: 6,
-            color: '#fcc',
+            style: '#fcc',
             shadow: new TB.model.Shadow(0, 0, '#fff', 2)
         }).fill();
         rect.addEventListener('click', e => {
@@ -44,7 +44,7 @@ let callbacks = {
             layer: boxLayer,
             expand: new TB.model.Expand(50, 50, 400, 200),
             lineWidth: 4,
-            color: '#4f0',
+            style: '#4f0',
             shadow: new TB.model.Shadow(0, 0, '#fff', 5)
         }).stroke();
         // 外盒子
@@ -62,10 +62,9 @@ let callbacks = {
         // 边框圆环
         circle = new Topoboard.graphs.Circle({
             layer: cirLayer,
-            o: new TB.model.Vector(100, 100),
-            r: 20,
+            radial: new TB.model.Radial(100, 100, 20),
             width: 2,
-            color: 'red',
+            style: 'red',
             closePath: true,
             shadow: new TB.model.Shadow(0, 0, '#fff', 5)
         }).stroke();
@@ -97,7 +96,7 @@ let callbacks = {
             // position: new Topoboard.Vector(300, 300),
             content: 'loading: 0/' + total,
             font: new TB.model.Font(18, '微软雅黑'),
-            color: '#f40'
+            style: '#f40'
         }).fill();
         loading.count = 0;
         loading.total = total;
@@ -151,9 +150,9 @@ animation.addTask(function() {
     if(! circle) {
         return;
     }
-    let x = circle.o.x;
-    let y = circle.o.y;
-    let r = circle.r;
+    let x = circle.radial.x;
+    let y = circle.radial.y;
+    let r = circle.radial.r;
     let cl = x - r;
     let cr = x + r;
     let ct = y - r;
@@ -205,8 +204,8 @@ animation.addTask(function() {
         }
     }
 
-    circle.o.x += dx;
-    circle.o.y += dy;
+    circle.radial.x += dx;
+    circle.radial.y += dy;
 });
 
 // 填充框动画, 抛物体

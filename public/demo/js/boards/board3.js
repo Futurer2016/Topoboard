@@ -48,12 +48,12 @@ let callbacks = {
           new TB.model.Vector(next.coor[0], next.coor[1])
         ],
         width: 8,
-        color: 'lightblue',
+        style: 'lightblue',
         shadow: new TB.model.Shadow(0, 0, '#fff', 5),
         closePath: false
       }).stroke();
       line.addEventListener('mousemove', function(e) {
-        this.color = '#008c8c';
+        this.style = '#008c8c';
         this.shadow.color = '#f40';
         this.shadow.blur = 10;
         this.refresh();
@@ -61,7 +61,7 @@ let callbacks = {
         board.refresh();
       });
       line.addEventListener('mouseleave', function(e) {
-        this.color = 'lightblue';
+        this.style = 'lightblue';
         this.shadow.color = '#fff';
         this.shadow.blur = 5;
         this.refresh();
@@ -71,15 +71,14 @@ let callbacks = {
       // 绘制node
       let node = new Topoboard.graphs.Circle({
           layer: nodeLayer,
-          o: new TB.model.Vector(prev.coor[0], prev.coor[1]),
-          r: 12,
+          radial: new TB.model.Radial(prev.coor[0], prev.coor[1], 12),
           width: 2,
-          color: 'red',
+          style: 'red',
           closePath: true,
           shadow: new TB.model.Shadow(0, 0, '#fff', 5)
       }).fill();
       node.addEventListener('mousemove', function(e) {
-        this.color = '#008c8c';
+        this.style = '#008c8c';
         this.shadow.color = '#f40';
         this.shadow.blur = 10;
         this.refresh();
@@ -88,7 +87,7 @@ let callbacks = {
         return true;
       });
       node.addEventListener('mouseleave', function(e) {
-        this.color = 'red';
+        this.style = 'red';
         this.shadow.color = '#fff';
         this.shadow.blur = 5;
         this.refresh();
@@ -100,21 +99,20 @@ let callbacks = {
         position: new TB.model.Vector(prev.coor[0] - 5, prev.coor[1] - 20),
         content: prev.label,
         font: new TB.model.Font(18, '微软雅黑'),
-        color: 'chocolate'
+        style: 'chocolate'
       }).fill();
       return next;
     });
     let node = new Topoboard.graphs.Circle({
       layer: nodeLayer,
-      o: new TB.model.Vector(znode.coor[0], znode.coor[1]),
-      r: 12,
+      radial: new TB.model.Radial(znode.coor[0], znode.coor[1], 12),
       width: 2,
-      color: 'red',
+      style: 'red',
       closePath: true,
       shadow: new TB.model.Shadow(0, 0, '#fff', 5)
     }).fill();
     node.addEventListener('mousemove', function(e) {
-      this.color = '#008c8c';
+      this.style = '#008c8c';
       this.shadow.color = '#f40';
       this.shadow.blur = 10;
       this.refresh();
@@ -123,7 +121,7 @@ let callbacks = {
       return true;
     });
     node.addEventListener('mouseleave', function(e) {
-      this.color = 'red';
+      this.style = 'red';
       this.shadow.color = '#fff';
       this.shadow.blur = 5;
       this.refresh();
@@ -135,7 +133,7 @@ let callbacks = {
       position: new TB.model.Vector(znode.coor[0] - 5, znode.coor[1] - 20),
       content: znode.label,
       font: new TB.model.Font(18, '微软雅黑'),
-      color: 'chocolate'
+      style: 'chocolate'
     }).fill();
 
     // 结束加载中图层
@@ -159,7 +157,7 @@ let callbacks = {
           // position: new Topoboard.Vector(300, 300),
           content: 'loading: 0/' + total,
           font: new TB.model.Font(18, '微软雅黑'),
-          color: '#f40'
+          style: '#f40'
       }).fill();
       loading.count = 0;
       loading.total = total;

@@ -2,8 +2,8 @@ const { inherit } = require('../../core/util/inherit');
 const Graph = require('../../core/instance/Graph');
 
 //折线
-function PolyLine({layer, path, width = 1, color, closePath, shadow}) {
-    Graph.call(this, {layer, closePath, color, shadow});
+function PolyLine({layer, path, width = 1, style, closePath, shadow}) {
+    Graph.call(this, {layer, closePath, style, shadow});
 
     if(! path) {
         throw Error('path 属性不能为空');
@@ -23,10 +23,8 @@ inherit(PolyLine, Graph, {
                     ctx.lineTo(vector.x, vector.y);
                 }
             });
-            ctx.strokeStyle = self.color;
             ctx.lineWidth = self.width;
             ctx.lineCap = "round";
-            self.closePath && ctx.closePath();
         });
 
         this.push('stroke');
@@ -42,10 +40,8 @@ inherit(PolyLine, Graph, {
                     ctx.lineTo(vector.x, vector.y);
                 }
             });
-            ctx.fillStyle = self.color;
             ctx.lineWidth = self.width;
             ctx.lineCap = "round";
-            self.closePath && ctx.closePath();
         });
 
         this.push('fill');

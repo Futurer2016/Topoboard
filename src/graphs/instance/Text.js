@@ -12,24 +12,23 @@ function rePosition(text) {
     return new Vector(x, y);
 }
 
-function Text({layer, position, content, font, color, shadow, visible = true}) {
-    Graph.call(this, {layer, closePath: true, color, shadow, visible});
+function Text({layer, position, content, font, style, shadow, visible = true}) {
+    Graph.call(this, {layer, closePath: true, style, shadow, visible});
 
     this.content = content;
     this.font = font || new Font(18, '微软雅黑');
-    this.isCenter = ! position;
-    this.position = position || rePosition(this);
+    this.position = position;
 }
 
 inherit(Text, Graph, {
     fill: function() {
-        let self = this, ctx = this.drawer.ctx;
-        ctx.font = self.font.getFont();
-        ctx.fillStyle = this.color;
-        if(self.isCenter) {
-            self.position = rePosition(self);
+        let _this = this, ctx = this.drawer.ctx;
+        ctx.font = _this.font.getFont();
+        ctx.fillStyle = this.style;
+        if(! _this.position) {
+            _this.position = rePosition(_this);
         }
-        ctx.fillText(self.content, self.position.x, self.position.y);
+        ctx.fillText(_this.content, _this.position.x, _this.position.y);
         this.closePath && ctx.closePath();
 
         this.push('fill');

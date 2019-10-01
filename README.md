@@ -59,12 +59,17 @@ let font = new TB.model.Font(18, '微软雅黑');
 let f = font.getFont();
 // '18px 微软雅黑'
 ```
-3. Shadow 阴影模型, 它是Vector的子对象, 它的实例等价于一个普通对象
+3. Radial 放射模型, 它是Vector的子对象, 它的示例等价于一个普通对象
+```js
+let radial = new TB.model.Radial(0, 0, 5);
+// Radial {x: 0, y: 0, r: 5}
+```
+4. Shadow 阴影模型, 它是Vector的子对象, 它的实例等价于一个普通对象
 ```js
 let shadow = new TB.model.Shadow(0, 0, '#fff', 5);
 // Shadow {x: 0, y: 0, color: '#fff', blur: 5}
 ```
-4. Vector 向量模型, 它的实例等价于一个普通对象
+5. Vector 向量模型, 它的实例等价于一个普通对象
 ```js
 let v = new TB.model.Vector(100, 100);
 // Vector {x: 100, y: 100}
@@ -78,7 +83,7 @@ circle = new Topoboard.graphs.Circle({
   o: new TB.model.Vector(100, 100),
   r: 20,
   width: 2,
-  color: 'red',
+  style: 'red',
   closePath: true,
   shadow: new TB.model.Shadow(0, 0, '#fff', 5)
 }).stroke();
@@ -101,7 +106,7 @@ new Topoboard.graphs.PolyLine({
     new TB.model.Vector(450, 200)
   ],
   width: 2,
-  color: 'lightblue',
+  style: 'lightblue',
   closePath: false
 }).stroke();
 ```
@@ -111,7 +116,7 @@ rect = new Topoboard.graphs.Rect({
   layer: recLayer,
   expand: new TB.model.Expand(150, 100, 80, 80),
   lineWidth: 6,
-  color: '#fcc',
+  style: '#fcc',
   shadow: new TB.model.Shadow(0, 0, '#fff', 2)
 }).fill();
 ```
@@ -122,7 +127,7 @@ let label = new Topoboard.graphs.Text({
   position: new TB.model.Vector(prev.coor[0] - 5, prev.coor[1] - 20),
   content: prev.label,
   font: new TB.model.Font(18, '微软雅黑'),
-  color: 'chocolate'
+  style: 'chocolate'
 }).fill();
 ```
 ## events
@@ -211,7 +216,7 @@ let callbacks = {
       // position: new Topoboard.Vector(300, 300),
       content: 'loading: 0/' + total,
       font: new TB.model.Font(18, '微软雅黑'),
-      color: '#f40'
+      style: '#f40'
     }).fill();
     loading.count = 0;
     loading.total = total;

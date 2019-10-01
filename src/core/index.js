@@ -6,12 +6,13 @@ const Topoboard = require('./instance/Topoboard');
 
 const Layer = require('./instance/Layer');
 
-const Vector = require('./model/Vector');
 const Expand = require('./model/Expand');
-const Shadow = require('./model/Shadow');
 const Font = require('./model/Font');
+const Radial = require('./model/Radial');
+const Shadow = require('./model/Shadow');
+const Vector = require('./model/Vector');
 
-let model = { Vector, Expand, Shadow, Font };
+let model = { Expand, Font, Radial, Shadow, Vector };
 
 extend(Topoboard, {
   Animation, ImgManager, 
