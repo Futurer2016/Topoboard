@@ -8,11 +8,13 @@ const Layer = require('./instance/Layer');
 
 const Expand = require('./model/Expand');
 const Font = require('./model/Font');
+const LinearGradient = require('./model/LinearGradient');
 const Radial = require('./model/Radial');
+const RadialGradient = require('./model/RadialGradient');
 const Shadow = require('./model/Shadow');
 const Vector = require('./model/Vector');
 
-let model = { Expand, Font, Radial, Shadow, Vector };
+let model = { Expand, Font, LinearGradient, Radial, RadialGradient, Shadow, Vector };
 
 extend(Topoboard, {
   Animation, ImgManager, 

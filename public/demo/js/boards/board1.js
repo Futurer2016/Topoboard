@@ -6,7 +6,7 @@ let h2 = '匀速运动与抛物运动与碰撞检查';
 
 let { container, btnBox, imgViewBox } = createBoardBox('board1', h2);
 
-let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
+let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'data/img.json'});
 imgManager.load();
 imgManager.onreadystatechange = function() {
     //数据加载完成

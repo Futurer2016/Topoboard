@@ -14,7 +14,7 @@ links = [
   {label: '结束', coor: [400, 50]}
 ];
 
-let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
+let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'data/img.json'});
 imgManager.load();
 imgManager.onreadystatechange = function() {
   //数据加载完成
@@ -142,26 +142,26 @@ let callbacks = {
   },
   // 更新加载中信息内容
   imgLoading: function(count, total) {
-      loading.count = count;
-      loading.text = 'loading: ' + count + '/' + total;
-      loading.content = loading.text + loading.dots;
+    loading.count = count;
+    loading.text = 'loading: ' + count + '/' + total;
+    loading.content = loading.text + loading.dots;
 
-      loading.refresh();
-      loadingLayer.refresh();
-      board.refresh();
+    loading.refresh();
+    loadingLayer.refresh();
+    board.refresh();
   },
   imgInfoReady: function(total) {
-      // 绘制加载中信息
-      loading = new Topoboard.graphs.Text({
-          layer: loadingLayer,
-          // position: new Topoboard.Vector(300, 300),
-          content: 'loading: 0/' + total,
-          font: new TB.model.Font(18, '微软雅黑'),
-          style: '#f40'
-      }).fill();
-      loading.count = 0;
-      loading.total = total;
-      loading.text = 'loading: 0/' + total;
+    // 绘制加载中信息
+    loading = new Topoboard.graphs.Text({
+      layer: loadingLayer,
+      // position: new Topoboard.Vector(300, 300),
+      content: 'loading: 0/' + total,
+      font: new TB.model.Font(18, '微软雅黑'),
+      style: '#f40'
+    }).fill();
+    loading.count = 0;
+    loading.total = total;
+    loading.text = 'loading: 0/' + total;
   }
 };
 // 画板

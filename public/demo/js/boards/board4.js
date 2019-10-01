@@ -29,45 +29,69 @@ let rect = new Topoboard.graphs.Rect({
   layer: bkLayer,
   expand: new TB.model.Expand(0, 0, 500, 300),
   lineWidth: 2,
-  style: '#000'
+  style: function(ctx) {
+    let gradient = new TB.model.RadialGradient(
+      ctx, 
+      new TB.model.Radial(200, 150, 30), 
+      new TB.model.Radial(250, 150, 250), 
+      [
+        {step: 0, color: '#003c3c'},
+        {step: 0.5, color: '#001c1c'},
+        {step: 1, color: '#000'}
+      ]
+    );
+    console.log(gradient);
+    return gradient;
+  }
 }).fill();
 
-board.refresh(true);
+bkLayer.refresh();
+board.refresh();
 
 let balls= [];
+let store = [];
+let max =  300;
+// 创建一个球, 如果创建的球超过max个, 不再创建新的
+// 如果 balls.length == max 鼠标位置将不会出现新的小球, 此时 store.length == 0
+function createBall(x, y) {
+  let ball;
+  if(balls.length + store.length >= max) {
+    ball = store.pop();
+    if(ball) {
+      ball.radial.x = x;
+      ball.radial.y = y;
+      ball.radial.r = 20;
+
+      balls.push(ball);
+    }
+  }
+  else {
+    // 生成一个球
+    ball = new Topoboard.graphs.Circle({
+      layer: ballLayer,
+      radial: new TB.model.Radial(x, y, 20),
+      width: 2,
+      style: randomColor(),
+      closePath: true,
+      shadow: new TB.model.Shadow(0, 0, '#fff', random(0, maxBlur))
+    }).fill();
+    ball.dx = random(-maxSpeed, maxSpeed);
+    ball.dy = random(-maxSpeed, maxSpeed);
+    balls.push(ball);
+  }
+  return ball;
+}
 board.addEventListener('mousemove', (e) => {
   if(animation.isStopped()) {
     animation.restart();
   }
   let x = e.offsetX;
   let y = e.offsetY;
-  // 生成一个球
-  let ball = new Topoboard.graphs.Circle({
-    layer: ballLayer,
-    radial: new TB.model.Radial(x, y, 20),
-    width: 2,
-    style: randomColor(),
-    closePath: true,
-    shadow: new TB.model.Shadow(0, 0, '#fff', random(0, maxBlur))
-  }).fill();
-  ball.dx = random(-maxSpeed, maxSpeed);
-  ball.dy = random(-maxSpeed, maxSpeed);
-  balls.push(ball);
-  // 生成第二个球
-  ball = new Topoboard.graphs.Circle({
-    layer: ballLayer,
-    radial: new TB.model.Radial(x, y, 10),
-    width: 2,
-    style: randomColor(),
-    closePath: true,
-    shadow: new TB.model.Shadow(0, 0, '#fff', random(0, maxBlur))
-  }).fill();
-  ball.dx = random(-maxSpeed, maxSpeed);
-  ball.dy = random(-maxSpeed, maxSpeed);
-  balls.push(ball);
+  createBall(x, y);
 });
 
 let animation = new Topoboard.Animation();
+// 小球衰减
 animation.addTask(function() {
   if(! balls.length) {
     animation.stop();
@@ -75,24 +99,23 @@ animation.addTask(function() {
   }
   let removedBall = [];
   balls.forEach(ball => {
-    ball.r -= menus;
-    if(ball.r <= 0) {
-      ball.r = 0;
+    ball.radial.r -= menus;
+    if(ball.radial.r <= 0) {
+      ball.radial.r = 0;
       removedBall.push(ball);
     }
   });
   if(removedBall.length) {
     let next = removedBall.reduceRight((prev, next) => {
       let i = balls.indexOf(prev);
-      i > -1 && balls.splice(i, 1);
+      i > -1 && store.push(balls.splice(i, 1)[0]);
       return next;
     });
     let i = balls.indexOf(next);
-    i > -1 && balls.splice(i, 1);
+    i > -1 && store.push(balls.splice(i, 1)[0]);
   }
-
-  ballLayer.refresh(true);
 });
+// 小球移动
 animation.addTask(() => {
   balls.forEach(ball => {
     ball.radial.x += ball.dx;

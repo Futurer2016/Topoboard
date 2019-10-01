@@ -16,6 +16,13 @@ extend(Drawer.prototype, {
 	closePath: function() {
 		this.graph.closePath && this.ctx.closePath();
 	},
+	getStyle: function() {
+		let style = this.graph.style;
+		if(style instanceof Function) {
+			return style(this.ctx);
+		}
+		return style;
+	},
 	draw: function(executor) {
 		this.ctx.beginPath();
 		addShadow(this.ctx, this.graph.shadow);
@@ -23,7 +30,7 @@ extend(Drawer.prototype, {
 	}, 
 	fill: function(executor) {
 		this.draw(executor);
-		this.ctx.fillStyle = this.graph.style;
+		this.ctx.fillStyle = this.getStyle();
 		this.closePath();
 		this.ctx.fill();
 		this.filled = true;
@@ -33,7 +40,7 @@ extend(Drawer.prototype, {
 	},
 	stroke: function(executor) {
 		this.draw(executor);
-		this.ctx.strokeStyle = this.graph.style;
+		this.ctx.strokeStyle = this.getStyle();
 		this.closePath();
 		this.ctx.stroke();
 		this.stroked = true;

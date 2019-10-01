@@ -1,0 +1,7 @@
+{
+  "images": [
+    {"name": "bg", "url": "./img/avoid-game/background.png"},
+    {"name": "hero", "url": "./img/avoid-game/hero.png"},
+    {"name": "monster", "url": "./img/avoid-game/monster.png"}
+  ]
+}

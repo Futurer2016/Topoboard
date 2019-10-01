@@ -34,7 +34,7 @@ module.exports = {
 					}
 				}
 			},
-			// css
+			// less
 			{
 				test: /\.less$/,
 				use: [
@@ -66,12 +66,12 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
 			{
-				from: 'public/demo/img/*',
-				to: 'img/[name].[ext]'
+				from: 'public/demo/img',
+				to: 'img'
 			},
 			{
-				from: 'public/demo/*.json',
-				to: '[name].[ext]'
+				from: 'public/demo/data/*.json',
+				to: 'data/[name].[ext]'
 			},
 			{
 				from: 'lib/gif/*',

@@ -1,5 +1,5 @@
 # Topoboard
-本项目致力于将绘图模式的canvas上下文CanvasRenderingContext2D, 整理成面向对象的使用模式, 不再需要获取CanvasRenderingContext2D, 不再需要moveTo、lineTo, 不再需要beginPath、closePath, 不再需要面向过程编程。
+本项目致力于将绘图模式的 canvas 上下文 CanvasRenderingContext2D, 整理成面向对象的使用模式, 不再需要获取CanvasRenderingContext2D, 不再需要moveTo、lineTo, 不再需要beginPath、closePath, 不再需要面向过程编程。
 
 ## 可实现的功能
 ### 匀速运动与抛物运动与碰撞检查

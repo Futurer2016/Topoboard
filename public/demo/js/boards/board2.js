@@ -7,7 +7,7 @@ let { container, btnBox, imgViewBox } = createBoardBox('board1', '实现一个�
 let loading, axis, 
 values = [];
 
-let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
+let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'data/img.json'});
 imgManager.load();
 imgManager.onreadystatechange = function() {
     //数据加载完成
@@ -52,7 +52,19 @@ let callbacks = {
         layer: recLayer,
         expand: new TB.model.Expand(60 * (index + 1), 200, 40, 0),
         lineWidth: 1,
-        style: '#008c8c',
+        style: function(ctx) {
+          let gradient = new TB.model.LinearGradient(
+            ctx, 
+            new TB.model.Vector(0, 0),
+            new TB.model.Vector(500, 500),
+            [
+              {step: 0, color: '#008c8c'},
+              {step: 1, color: '#fcc'}
+            ]
+          );
+
+          return gradient;
+        },
         shadow: new TB.model.Shadow('#fff', 0, 0, 2)
       }).fill();
       // 值
