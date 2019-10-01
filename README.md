@@ -80,8 +80,7 @@ let v = new TB.model.Vector(100, 100);
 ```js
 circle = new Topoboard.graphs.Circle({
   layer: cirLayer,
-  o: new TB.model.Vector(100, 100),
-  r: 20,
+  radial: new TB.model.Vector(100, 100, 20),
   width: 2,
   style: 'red',
   closePath: true,
