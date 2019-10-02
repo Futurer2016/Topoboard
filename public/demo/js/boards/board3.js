@@ -3,7 +3,7 @@ const { createBoardBox, createElement, addBtn } = require('../util/dom');
 /**
  * topo图
  */
-let { container, btnBox, imgViewBox } = createBoardBox('board1', '实现一个Topo图');
+let { container, btnBox, imgViewBox } = createBoardBox('board3', '实现一个Topo图');
 let loading, 
 links = [
   {label: '开始', coor: [50, 50]},
@@ -98,7 +98,7 @@ let callbacks = {
         layer: labelLayer,
         position: new TB.model.Vector(prev.coor[0] - 5, prev.coor[1] - 20),
         content: prev.label,
-        font: new TB.model.Font(18, '微软雅黑'),
+        font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
         style: 'chocolate'
       }).fill();
       return next;
@@ -132,7 +132,7 @@ let callbacks = {
       layer: labelLayer,
       position: new TB.model.Vector(znode.coor[0] - 5, znode.coor[1] - 20),
       content: znode.label,
-      font: new TB.model.Font(18, '微软雅黑'),
+      font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
       style: 'chocolate'
     }).fill();
 
@@ -156,7 +156,7 @@ let callbacks = {
       layer: loadingLayer,
       // position: new Topoboard.Vector(300, 300),
       content: 'loading: 0/' + total,
-      font: new TB.model.Font(18, '微软雅黑'),
+      font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
       style: '#f40'
     }).fill();
     loading.count = 0;

@@ -10,7 +10,7 @@ let menus = 0.3;
 let maxSpeed = 5;
 let maxBlur = 20;
 
-let { container, btnBox, imgViewBox } = createBoardBox('board1', h2);
+let { container, btnBox, imgViewBox } = createBoardBox('board4', h2);
 
 function random(min, max) {
   return Math.random() * (max - min) + min;
@@ -40,7 +40,6 @@ let rect = new Topoboard.graphs.Rect({
         {step: 1, color: '#000'}
       ]
     );
-    console.log(gradient);
     return gradient;
   }
 }).fill();
@@ -154,7 +153,6 @@ addBtn(btnBox, '开始录制', e => {
       height: 300
     });
     gif.on('finished', function(blob) {
-      console.log('record finished');
       let data = URL.createObjectURL(blob);
       // 预览
       img.src = data;

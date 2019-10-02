@@ -8,7 +8,7 @@ module.exports = {
 	//构建模式
 	mode: process.env.NODE_ENV,
 	//开发工具，用于指示报错信息位置
-	devtool: process.env.NODE_ENV == 'development'? 'inline-source-map': void 0, 
+	devtool: 'inline-source-map', 
 	//入口文件
 	entry: {
 		// Topoboard: './src/core/index.js', // 核心接口模块

@@ -3,7 +3,7 @@ const { createBoardBox, createElement, addBtn, download } = require('../util/dom
 /**
  * 柱形图
  */
-let { container, btnBox, imgViewBox } = createBoardBox('board1', '实现一个柱状图');
+let { container, btnBox, imgViewBox } = createBoardBox('board2', '实现一个柱状图');
 let loading, axis, 
 values = [];
 
@@ -72,7 +72,7 @@ let callbacks = {
           layer: valueLayer,
           position: new TB.model.Vector(60 * (index + 1), 200),
           content: 0,
-          font: new TB.model.Font(18, '微软雅黑'),
+          font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
           style: '#f40'
       }).fill();
       // 标题
@@ -80,7 +80,7 @@ let callbacks = {
           layer: labelLayer,
           position: new TB.model.Vector(60 * (index + 1), 220),
           content: 'title' + (index + 1),
-          font: new TB.model.Font(18, '微软雅黑'),
+          font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
           style: '#f40'
       }).fill();
       // 浮窗框
@@ -97,7 +97,7 @@ let callbacks = {
         layer: modalLayer,
         position: new TB.model.Vector(0, 0),
         content: '',
-        font: new TB.model.Font(18, '微软雅黑'),
+        font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
         style: '#f40',
         visible: false
       }).fill();
@@ -148,7 +148,7 @@ let callbacks = {
     loading = new Topoboard.graphs.Text({
       layer: loadingLayer,
       content: 'loading: 0/' + total,
-      font: new TB.model.Font(18, '微软雅黑'),
+      font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
       style: '#f40'
     }).fill();
     loading.count = 0;

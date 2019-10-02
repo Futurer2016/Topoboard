@@ -95,7 +95,7 @@ let callbacks = {
             layer: loadingLayer,
             // position: new Topoboard.Vector(300, 300),
             content: 'loading: 0/' + total,
-            font: new TB.model.Font(18, '微软雅黑'),
+            font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
             style: '#f40'
         }).fill();
         loading.count = 0;

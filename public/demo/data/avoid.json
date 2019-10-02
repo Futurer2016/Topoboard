@@ -3,5 +3,34 @@
     {"name": "bg", "url": "./img/avoid-game/background.png"},
     {"name": "hero", "url": "./img/avoid-game/hero.png"},
     {"name": "monster", "url": "./img/avoid-game/monster.png"}
-  ]
+  ],
+  "roles": {
+    "area": {
+      "border": 30,
+      "width": 518,
+      "height": 480
+    },
+    "monster": {
+      "width": 32,
+      "height": 32,
+      "maxSpeed": 20,
+      "speed": 3,
+      "total": 300
+    },
+    "hero": {
+      "width": 38,
+      "height": 32,
+      "maxSpeed": 20,
+      "speed": 10,
+      "dx": 0,
+      "dy": 0
+    }
+  },
+  "count-down": {
+    "max": 180,
+    "min": 60,
+    "step": 9,
+    "minTime": 10,
+    "count": 0
+  }
 }
