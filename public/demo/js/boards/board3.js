@@ -1,4 +1,6 @@
 import { createBoardBox, createElement, addBtn } from '../util/dom';
+import snapshot from '../util/snapshot';
+import layerControl from '../util/layerControl';
 
 /**
  * topo图
@@ -199,24 +201,5 @@ console.log(board);
 
 window.board3 = board;
 
-// 注册页面按钮事件
-let img = createElement('img');
-addBtn(btnBox, '预览图片', e => {
-  let data = board.snapshot();
-  img.src = data;
-  imgViewBox.appendChild(img);
-});
-addBtn(btnBox, '导出图片', e => {
-  board.download();
-});
-board.layers.forEach(layer => {
-  if(layer.className == 'loading-layer') {
-    return;
-  }
-  let title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
-  addBtn(btnBox, title, (e) => {
-    layer.toggle();
-    title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
-    e.target.innerText = title;
-  });
-});
+snapshot(btnBox, board, imgViewBox);
+layerControl(btnBox, board);

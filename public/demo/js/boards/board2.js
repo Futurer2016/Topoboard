@@ -1,4 +1,6 @@
 import { createBoardBox, createElement, addBtn, download } from '../util/dom';
+import snapshot from '../util/snapshot';
+import layerControl from '../util/layerControl';
 
 /**
  * 柱形图
@@ -240,55 +242,5 @@ console.log(board);
 
 window.board2 = board;
 
-// 注册页面按钮事件
-let img = createElement('img');
-addBtn(btnBox, '预览图片', e => {
-  let data = board.snapshot();
-  img.src = data;
-  imgViewBox.appendChild(img);
-});
-addBtn(btnBox, '导出图片', e => {
-  board.download();
-});
-board.layers.forEach(layer => {
-  if(layer.className == 'loading-layer') {
-    return;
-  }
-  let title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
-  addBtn(btnBox, title, (e) => {
-    layer.toggle();
-    title = '图层-' + layer.className + '-' + (layer.visible? '显示': '隐藏');
-    e.target.innerText = title;
-  });
-});
-// 动画录制
-let gifAni = new Topoboard.Animation();
-let addFrame = false, i =  0;
-gifAni.onenterframe = function() {
-    addFrame &&  !(i ++ % 3) && gif.addFrame(board.ctx, {copy: true, delay: 1000 / 60});
-};
-gifAni.start();
-addBtn(btnBox, '开始录制', e => {
-    addFrame = ! addFrame;
-    if(addFrame) {
-        e.target.innerText = '结束录制';
-    }
-    else {
-        e.target.innerText = '开始录制';
-        gif.render();
-    }
-});
-
-var gif = new GIF({
-    worker: 1,
-    quality: 1,
-    width: 500,
-    height: 300
-});
-gif.on('finished', function(blob) {
-    console.log('record finished');
-    let data = URL.createObjectURL(blob);
-    img.src = data;
-    imgViewBox.appendChild(img);
-    download(data, 'board2');
-});
+snapshot(btnBox, board, imgViewBox);
+layerControl(btnBox, board);

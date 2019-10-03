@@ -10,6 +10,8 @@
 ![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board3.png)
 ### 炫彩小球
 ![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board4.gif)
+### 躲避怪物
+![image](https://github.com/Futurer2016/Topoboard/blob/master/readmefile/img/board5.gif)
 
 ## 起步
 当你需要开始一个canvas时, 你需要在页面中提供一个容器, 并提供指定的宽高, 如: 
@@ -17,13 +19,14 @@
 <div id="container" style="width: 500px; height: 300px;"></div>
 ```
 ## 项目编译
-运行命令```npm run build```编译项目, 编译后的文件是```/dist```文件夹下的Topoboard.js文件, 如果需要压缩后的文件, 请修改```webpack.config.js```中的mode为```production```, 重新编译
+运行命令```npm run build```编译项目, 编译后的文件是```/dist```文件夹下的Topoboard.js文件, 如果需要压缩后的文件, 请修改```webpack.config.js```中的mode为```production```, 重新编译。
 ## 项目依赖
-1. 项目本身不依赖任何库
-2. demo中的gif录制功能需要导入 [gif.js](https://github.com/jnordberg/gif.js) 库,才能正常使用
+1. 项目编译依赖包括: Webpack、babel、less、postcss, 等。
+2. 项目没有任何运行时依赖。
+3. demo中的gif录制功能 使用的库[gif.js](https://github.com/jnordberg/gif.js) 。
 
 ## Topoboard
-1. Topoboard 会向外暴露的变量名称
+1. Topoboard 会向外暴露的变量名称。
 ```js
 if(window) {
   window['TB'] = window['Topoboard'] = Topoboard;
@@ -32,13 +35,13 @@ if(typeof define == 'function' && define.amd) {
   define('Topoboard', () => Topoboard);
 }
 ```
-2. 创建Topoboard实例, 第一个参数是容器实例, 第二个参数是支持的事件类型（仅鼠标事件）
+2. 创建Topoboard实例, 第一个参数是容器实例, 第二个参数是支持的事件类型（仅鼠标事件）。
 ```js
 let board = new Topoboard(document.getElementById('container'), ['click']);
 ```
 
 ## layer
-创建图层, 后创建的图层覆盖在上面
+创建图层, 后创建的图层覆盖在上面。
 ```js
 let bkLayer = board.newLayer('bk-layer');
 let plLayer = board.newLayer('pl-layer');
@@ -46,37 +49,37 @@ let recLayer = board.newLayer('rec-layer');
 let labelLayer = board.newLayer('label-layer');
 ```
 ## model
-作为丰富图形对象信息的一种重要参数组件, 数据模型是必要的
-1. Expand 矩形扩展模型, 它的实例等价于一个普通对象
+作为丰富图形对象信息的一种重要参数组件, 数据模型是必要的。
+1. Expand 矩形扩展模型, 它的实例等价于一个普通对象。
 ```js
 let e = new TB.model.Expand(150, 100, 80, 80);
 // Expand { x: 150, y: 100, w: 80, h: 80 };
 // x,y 表示图形的基准坐标。w,h 表示图形的扩展宽高。可用于图片、矩形等图形对象的参数使用
 ```
-2. Font 字体模型, 它的实例用于生成一个字体样式字符串
+2. Font 字体模型, 它的实例用于生成一个字体样式字符串。
 ```js
 let font = new TB.model.Font(18, '微软雅黑');
 let f = font.getFont();
 // '18px 微软雅黑'
 ```
-3. Radial 放射模型, 它是Vector的子对象, 它的示例等价于一个普通对象
+3. Radial 放射模型, 它是Vector的子对象, 它的示例等价于一个普通对象。
 ```js
 let radial = new TB.model.Radial(0, 0, 5);
 // Radial {x: 0, y: 0, r: 5}
 ```
-4. Shadow 阴影模型, 它是Vector的子对象, 它的实例等价于一个普通对象
+4. Shadow 阴影模型, 它是Vector的子对象, 它的实例等价于一个普通对象。
 ```js
 let shadow = new TB.model.Shadow(0, 0, '#fff', 5);
 // Shadow {x: 0, y: 0, color: '#fff', blur: 5}
 ```
-5. Vector 向量模型, 它的实例等价于一个普通对象
+5. Vector 向量模型, 它的实例等价于一个普通对象。
 ```js
 let v = new TB.model.Vector(100, 100);
 // Vector {x: 100, y: 100}
 ```
 ## graphs
 要绘制一个图形, 只需要声明一个对象, 并决定要fill还是stroke(Img除外)。相同图层下, 后绘制的图形覆盖在其他图形上面。
-1. Circle 绘制一个圆形
+1. Circle 绘制一个圆形。
 ```js
 circle = new Topoboard.graphs.Circle({
   layer: cirLayer,
@@ -87,14 +90,14 @@ circle = new Topoboard.graphs.Circle({
   shadow: new TB.model.Shadow(0, 0, '#fff', 5)
 }).stroke();
 ```
-2. Img 绘制一个背景图片
+2. Img 绘制一个背景图片。
 ```js
 new Topoboard.graphs.Img({
   layer: bkLayer,
   image: '1.png'
 }).draw();
 ```
-3. PolyLine 绘制一个折线
+3. PolyLine 绘制一个折线。
 如下: 
 ```js
 new Topoboard.graphs.PolyLine({
@@ -109,7 +112,7 @@ new Topoboard.graphs.PolyLine({
   closePath: false
 }).stroke();
 ```
-4. Rect 绘制一个矩形
+4. Rect 绘制一个矩形。
 ```js
 rect = new Topoboard.graphs.Rect({
   layer: recLayer,
@@ -119,7 +122,7 @@ rect = new Topoboard.graphs.Rect({
   shadow: new TB.model.Shadow(0, 0, '#fff', 2)
 }).fill();
 ```
-5. Text 添加文本
+5. Text 添加文本。
 ```js
 let label = new Topoboard.graphs.Text({
   layer: labelLayer,
@@ -132,11 +135,11 @@ let label = new Topoboard.graphs.Text({
 ## events
 事件模型仍旧基于浏览器的原有事件机制, 如click、mousemove、mouseleave等。
 ### 如何支持一个事件？
-1. 创建Topoboard对象时, 需要提前预约, 我需要那几个事件
+1. 创建Topoboard对象时, 需要提前预约, 我需要那几个事件。
 ```js
 let board = new Topoboard(document.getElementById('container'), ['click', 'mousemove', 'mouseleave']);
 ```
-2. 在需要触发事件的对象上注册事件
+2. 在需要触发事件的对象上注册事件。
 ```js
 rect.addEventListener('click', function(event) {
   console.log(this, event.type);
@@ -147,7 +150,7 @@ rect.addEventListener('click', function(event) {
 ### 支持的事件类型
 仅支持部分鼠标事件, 只有部分鼠标事件具有正确的行为。
 ## ImgManager 基于Ajax的图片加载管理
-1. 先准备一个```img.json```文件, 用于保存所有依赖的图片路径和图片名称
+1. 先准备一个```img.json```文件, 用于保存所有依赖的图片路径和图片名称。
 ```js
 {
   "images": [
@@ -160,15 +163,15 @@ rect.addEventListener('click', function(event) {
   ]
 }
 ```
-2. 创建一个图片管理对象
+2. 创建一个图片管理对象。
 ```js
 let imgManager = new Topoboard.ImgManager({imgJsonUrl: 'img.json'});
 ```
-3. 开始加载图片
+3. 开始加载图片。
 ```js
 imgManager.load();
 ```
-4. 注册加载图片事件
+4. 注册加载图片事件。
 ```js
 // callbacks 是事先自己定义好的函数
 imgManager.onreadystatechange = function() {
@@ -188,8 +191,8 @@ imgManager.onreadystatechange = function() {
 ```
 
 ## Animation 动画管理
-制作一个加载中动画
-1. 加载中文本对象准备
+制作一个加载中动画。
+1. 加载中文本对象准备。
 ```js
 let loading;
 let loadingLayer = board.newLayer('loading-layer');
@@ -223,12 +226,12 @@ let callbacks = {
   }
 };
 ```
-1. 声明一个动画实例
+1. 声明一个动画实例。
 ```js
 // 500代表每隔多长时间才执行一帧动画
 let loadingAni = new Topoboard.Animation(500);
 ```
-2. 添加帧事务
+2. 添加帧事务。
 ```js
 let dot = 1;
 loadingAni.addTask(function() {
@@ -245,14 +248,14 @@ loadingAni.addTask(function() {
   loading.refresh();
 });
 ```
-3. 每一帧事务后触发帧事件
+3. 每一帧事务后触发帧事件。
 ```js
 loadingAni.onenterframe = function() {
   loadingLayer.refresh(); // 图层存在动画, 需要刷新
   board.refresh(); // 画板存在动画, 需要刷新
 };
 ```
-4. 启动动画
+4. 启动动画。
 ```js
 loadingAni.start();
 ```
@@ -266,11 +269,11 @@ loadingAni.start();
 'loading:3/6.....'
 // ...
 ```
-5. 停止动画
+5. 停止动画。
 ```js
 loadingAni.stop();
 ```
-6. 重新启动动画
+6. 重新启动动画。
 ```js
 loadingAni.restart();
 ```

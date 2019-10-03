@@ -17,7 +17,7 @@ import Monster from '../avoid/Monster';
 /**
  * topo图
  */
-let { container, btnBox } = createBoardBox('board5', '小游戏-躲避怪物');
+let { container, btnBox, imgViewBox } = createBoardBox('board5', '小游戏-躲避怪物');
 container.style.width = '514px';
 container.style.height = '482px';
 
@@ -180,5 +180,5 @@ function addBtns() {
     avoids.monster.monsterConf.total = + e.target.value;
   });
 
-  snapshot(btnBox, board);
+  snapshot(btnBox, board, imgViewBox);
 }

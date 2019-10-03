@@ -1,4 +1,6 @@
-const { createBoardBox, createElement, addBtn } = require('../util/dom');
+const { createBoardBox } = require('../util/dom');
+import snapshot from '../util/snapshot';
+import layerControl from '../util/layerControl';
 
 /**
  * topo图
@@ -131,39 +133,5 @@ console.log(board);
 
 window.board4 = board;
 
-// 动画录制
-let gifAni = new Topoboard.Animation();
-let addFrame = false, i =  0;
-gifAni.onenterframe = function() {
-    addFrame && gif && gif.addFrame(board.ctx, {copy: true, delay: 1000 / 60});
-};
-gifAni.start();
-
-let gif;
-let img = createElement('img');
-addBtn(btnBox, '开始录制', e => {
-  addFrame = ! addFrame;
-  // 开始录制
-  if(addFrame) {
-    e.target.innerText = '结束录制';
-    gif = new GIF({
-      worker: 1,
-      quality: 1,
-      width: 500,
-      height: 300
-    });
-    gif.on('finished', function(blob) {
-      let data = URL.createObjectURL(blob);
-      // 预览
-      img.src = data;
-      imgViewBox.appendChild(img);
-      // 导出
-      // download(data, 'board1');
-    });
-  }
-  // 结束录制
-  else {
-    e.target.innerText = '开始录制';
-    gif.render();
-  }
-});
+snapshot(btnBox, board, imgViewBox);
+layerControl(btnBox, board);
