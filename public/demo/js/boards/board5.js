@@ -150,7 +150,7 @@ let callbacks = {
 };
 
 // 画板
-let board = new Topoboard(container, ['click', 'keydown', 'keyup']);
+let board = new Topoboard(container, ['click', 'mousemove', 'mouseleave', 'keydown', 'keyup']);
 
 let doFinish = (m) => {
   avoids.timer.layer.hide();

@@ -1,7 +1,7 @@
 
 
 export default class Btn {
-  constructor(layer, {x, y, padding, text, style, color, onclick}) {
+  constructor(layer, {x, y, padding, text, style, color, onclick, onmousemove, onmouseleave}) {
     this.layer = layer;
     this.x = x;
     this.y = y;
@@ -11,6 +11,8 @@ export default class Btn {
     this.color = color;
 
     this.onclick = onclick;
+    this.onmousemove = onmousemove;
+    this.onmouseleave = onmouseleave;
 
     this._init();
   }
@@ -45,8 +47,16 @@ export default class Btn {
         return _this.style.call(this, ctx, boxExpand);
       }
     }).fill();
-    this.btn.on('click', (e) => {
-      this.onclick && this.onclick();
+    this.btn.on('click', e => {
+      this.onclick && this.onclick(e);
+    });
+    this.btn.on('mousemove', e => {
+      e.target.classList.add('hover');
+      this.onmousemove && this.onmousemove(e);
+    });
+    this.btn.on('mouseleave', e => {
+      e.target.classList.remove('hover');
+      this.onmouseleave && this.onmouseleave(e);
     });
     this.layer.pushGraph(this.btnText);
   }
