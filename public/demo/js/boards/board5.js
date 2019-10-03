@@ -127,7 +127,13 @@ let callbacks = {
     };
     avoids.endModal = new EndModal(board, area, '重新开始', padding, endp, (e) => {
       // 重新开始
-      avoids.beginModal.show();
+      setTimeout(() => {
+        // 开始倒计时
+        avoids.countDown.show();
+        avoids.countDown.doAni();
+        // 英雄出生
+        avoids.hero.show();
+      }, 0);
     });
     // 添加控制按钮
     addBtns();
