@@ -1,6 +1,6 @@
-const { createBoardBox, createElement, addBtn, download } = require('../util/dom');
+import { createBoardBox, createElement, addBtn } from '../util/dom';
 
-let loading, pl, circle, rect, prec;
+let loading, circle, rect, prec;
 let top, right, bottom, left;
 let h2 = '匀速运动与抛物运动与碰撞检查';
 
@@ -36,7 +36,7 @@ let callbacks = {
             style: '#fcc',
             shadow: new TB.model.Shadow(0, 0, '#fff', 2)
         }).fill();
-        rect.addEventListener('click', e => {
+        rect.on('click', e => {
             console.log('rect', this, e);
         });
         // 边框长方体
@@ -56,7 +56,7 @@ let callbacks = {
         bottom = box.y + box.h - offset;
         // console.log(top, right, bottom, left);
 
-        prec.addEventListener('click', e => {
+        prec.on('click', e => {
             console.log('rect', this, e);
         });
         // 边框圆环
@@ -68,7 +68,7 @@ let callbacks = {
             closePath: true,
             shadow: new TB.model.Shadow(0, 0, '#fff', 5)
         }).stroke();
-        circle.addEventListener('click', function(e) {
+        circle.on('click', function(e) {
             console.log('circle', this, e);
         });
 

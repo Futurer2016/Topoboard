@@ -1,4 +1,4 @@
-const { createBoardBox, createElement, addBtn } = require('../util/dom');
+import { createBoardBox, createElement, addBtn } from '../util/dom';
 
 /**
  * topo图
@@ -52,7 +52,7 @@ let callbacks = {
         shadow: new TB.model.Shadow(0, 0, '#fff', 5),
         closePath: false
       }).stroke();
-      line.addEventListener('mousemove', function(e) {
+      line.on('mousemove', function(e) {
         this.style = '#008c8c';
         this.shadow.color = '#f40';
         this.shadow.blur = 10;
@@ -60,7 +60,7 @@ let callbacks = {
         this.layer.refresh();
         board.refresh();
       });
-      line.addEventListener('mouseleave', function(e) {
+      line.on('mouseleave', function(e) {
         this.style = 'lightblue';
         this.shadow.color = '#fff';
         this.shadow.blur = 5;
@@ -77,7 +77,7 @@ let callbacks = {
           closePath: true,
           shadow: new TB.model.Shadow(0, 0, '#fff', 5)
       }).fill();
-      node.addEventListener('mousemove', function(e) {
+      node.on('mousemove', function(e) {
         this.style = '#008c8c';
         this.shadow.color = '#f40';
         this.shadow.blur = 10;
@@ -86,7 +86,7 @@ let callbacks = {
         board.refresh();
         return true;
       });
-      node.addEventListener('mouseleave', function(e) {
+      node.on('mouseleave', function(e) {
         this.style = 'red';
         this.shadow.color = '#fff';
         this.shadow.blur = 5;
@@ -96,7 +96,7 @@ let callbacks = {
       });
       let label = new Topoboard.graphs.Text({
         layer: labelLayer,
-        position: new TB.model.Vector(prev.coor[0] - 5, prev.coor[1] - 20),
+        position: new TB.model.Vector(prev.coor[0], prev.coor[1] - 20),
         content: prev.label,
         font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
         style: 'chocolate'
@@ -111,7 +111,7 @@ let callbacks = {
       closePath: true,
       shadow: new TB.model.Shadow(0, 0, '#fff', 5)
     }).fill();
-    node.addEventListener('mousemove', function(e) {
+    node.on('mousemove', function(e) {
       this.style = '#008c8c';
       this.shadow.color = '#f40';
       this.shadow.blur = 10;
@@ -120,7 +120,7 @@ let callbacks = {
       board.refresh();
       return true;
     });
-    node.addEventListener('mouseleave', function(e) {
+    node.on('mouseleave', function(e) {
       this.style = 'red';
       this.shadow.color = '#fff';
       this.shadow.blur = 5;
@@ -130,7 +130,7 @@ let callbacks = {
     });
     let label = new Topoboard.graphs.Text({
       layer: labelLayer,
-      position: new TB.model.Vector(znode.coor[0] - 5, znode.coor[1] - 20),
+      position: new TB.model.Vector(znode.coor[0], znode.coor[1] - 20),
       content: znode.label,
       font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
       style: 'chocolate'

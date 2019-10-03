@@ -80,7 +80,7 @@ function createBall(x, y) {
   }
   return ball;
 }
-board.addEventListener('mousemove', (e) => {
+board.on('mousemove', (e) => {
   if(animation.isStopped()) {
     animation.restart();
   }

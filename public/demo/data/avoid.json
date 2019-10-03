@@ -30,7 +30,6 @@
     "max": 180,
     "min": 60,
     "step": 9,
-    "minTime": 10,
-    "count": 0
+    "minTime": 10
   }
 }

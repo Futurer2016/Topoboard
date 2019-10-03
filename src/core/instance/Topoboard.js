@@ -190,12 +190,12 @@ extend(Topoboard.prototype, {
  * 扩展事件绑定方法
  */
 extend(Topoboard.prototype, {
-    addEventListener(eventType, cb) {
+    on(eventType, cb) {
         this.events[eventType] = this.events[eventType] || [];
         let eventList = this.events[eventType];
         eventList.push(cb);
     },
-    removeEventListener(eventType, cb) {
+    off(eventType, cb) {
         removeEventListener(this, eventType, cb);
     },
     /**

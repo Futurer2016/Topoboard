@@ -92,6 +92,6 @@ let addRangeInput = (box, title, max, value = 10, onchange) => {
   });
 }
 
-module.exports = {
+export {
   download, getFragment, createElement, addEl, createBoardBox, addAreaBox, addBtn, addRangeInput
 };

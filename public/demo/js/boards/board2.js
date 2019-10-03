@@ -1,4 +1,4 @@
-const { createBoardBox, createElement, addBtn, download } = require('../util/dom');
+import { createBoardBox, createElement, addBtn, download } from '../util/dom';
 
 /**
  * 柱形图
@@ -70,17 +70,19 @@ let callbacks = {
       // 值
       let value = new Topoboard.graphs.Text({
           layer: valueLayer,
-          position: new TB.model.Vector(60 * (index + 1), 200),
+          position: new TB.model.Vector(60 * (index + 1) + 20, 200),
           content: 0,
           font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
+          textBaseline: 'bottom',
           style: '#f40'
       }).fill();
       // 标题
       let title = new Topoboard.graphs.Text({
           layer: labelLayer,
-          position: new TB.model.Vector(60 * (index + 1), 220),
+          position: new TB.model.Vector(60 * (index + 1) + 20, 220),
           content: 'title' + (index + 1),
           font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
+          textBaseline: 'bottom',
           style: '#f40'
       }).fill();
       // 浮窗框
@@ -106,10 +108,10 @@ let callbacks = {
       let height = random(0, 170);
       let v = {rect, title, value, modalBox, modal, height};
       // 事件
-      rect.addEventListener('click', function(event) {
+      rect.on('click', function(event) {
         console.log(this, event.type);
       });
-      rect.addEventListener('mousemove', function(event) {
+      rect.on('mousemove', function(event) {
         // console.log(this, event.type);
         let x = event.offsetX;
         let y = event.offsetY;
@@ -120,7 +122,7 @@ let callbacks = {
         modal.position.y = y - 20;
         modal.show();
       });
-      rect.addEventListener('mouseleave', function() {
+      rect.on('mouseleave', function() {
         modalBox.hide();
         modal.hide();
       });

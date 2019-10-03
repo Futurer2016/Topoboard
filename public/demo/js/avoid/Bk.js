@@ -1,10 +1,17 @@
-export default class Timer {
-  constructor(imgs) {
-    let bkLayer = board.newLayer('bk-layer');
+import LayerModel from "../basic/LayerModel";
+
+export default class Bk extends LayerModel {
+  constructor(board, img) {
+    super(board, 'bk-layer');
+    this.img = img;
     // 背景图片
+    this.graph = null;
+    this._init();
+  }
+  _init() {
     this.graph = new Topoboard.graphs.Img({
-      layer: bkLayer,
-      image: imgs.bg
+      layer: this.layer,
+      image: this.img
     }).draw();
   }
 }
