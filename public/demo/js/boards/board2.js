@@ -101,6 +101,8 @@ let callbacks = {
         layer: modalLayer,
         position: new TB.model.Vector(0, 0),
         content: '',
+        textAlign: 'begin',
+        textBaseline: 'baseline',
         font: new TB.model.Font({fontSize: 18, fontFamily: '微软雅黑'}),
         style: '#f40',
         visible: false
