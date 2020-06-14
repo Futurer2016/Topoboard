@@ -3,13 +3,13 @@
 
 ## 可实现的功能
 ### 匀速运动与抛物运动与碰撞检查
-![image](https://gitee.com/FuturerJ/assets/raw/master/Topoboard/img/board1.gif)
+![image](https://i.niupic.com/images/2020/06/14/8gzx.gif)
 ### 实现一个柱状图
-![image](https://gitee.com/FuturerJ/assets/raw/master/Topoboard/img/board2.gif)
+![image](https://i.niupic.com/images/2020/06/14/8gzC.gif)
 ### 实现一个Topo图
 ![image](https://gitee.com/FuturerJ/assets/raw/master/Topoboard/img/board3.png)
 ### 炫彩小球
-![image](https://gitee.com/FuturerJ/assets/raw/master/Topoboard/img/board4.gif)
+![image](https://i.niupic.com/images/2020/06/14/8gzD.gif)
 ### 躲避怪物
 ![image](https://gitee.com/FuturerJ/assets/raw/master/Topoboard/img/board5.gif)
 
